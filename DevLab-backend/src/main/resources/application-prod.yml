@@ -1,0 +1,45 @@
+# 线上配置文件
+# @author <a href="https://github.com/sheldon-3601e">sheldon</a>
+# @from <a href="https://github.com/sheldon-3601e">sheldon</a>
+server:
+  port: 8101
+  servlet:
+    context-path: /api
+    # cookie 30 天过期
+    session:
+      cookie:
+        max-age: 2592000
+spring:
+  # 数据库配置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/my_devlab
+    username: root
+    password: 02120711LIUch
+  # session 配置
+  session:
+    store-type: redis
+    # 30 天过期
+    timeout: 2592000
+  # Redis 配置
+  redis:
+    database: 0
+    host: localhost
+    port: 6379
+    timeout: 5000
+    password: 02120711LIUch
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: false
+    log-impl: ''
+  global-config:
+    db-config:
+      logic-delete-field: isDelete # 全局逻辑删除的实体字段名
+      logic-delete-value: 1 # 逻辑已删除值（默认为 1）
+      logic-not-delete-value: 0 # 逻辑未删除值（默认为 0）
+# 接口文档配置
+knife4j:
+  basic:
+    enable: true
+    username: root
+    password: 02120711LIUch
