@@ -40,6 +40,26 @@ export default [
   },
   {
     icon: 'userOutlined',
+    path: '/online_judge',
+    name: 'OJ',
+    access: 'canLogin',
+    routes: [
+      {
+        path: '/online_judge/manage',
+        icon: 'smile',
+        component: './Online-Judge/ManageQuestion',
+        name: '管理题目',
+      },
+      {
+        path: '/online_judge/add',
+        icon: 'smile',
+        component: './Online-Judge/AddQuestion',
+        name: '创建题目',
+      },
+    ],
+  },
+  {
+    icon: 'userOutlined',
     path: '/match/account',
     name: '个人',
     access: 'canLogin',

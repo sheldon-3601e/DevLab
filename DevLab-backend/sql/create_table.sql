@@ -115,4 +115,18 @@ create table if not exists question_submit
     index idx_userId (userId)
 ) comment '题目提交';
 
+-- 题目标签表
+create table if not exists question_tags
+(
+    id         bigint auto_increment comment 'id'
+        primary key,
+    tagName    varchar(256)                       not null comment '标签内容',
+    userId     bigint                             null comment '标签作者 id',
+    createTime datetime default CURRENT_TIMESTAMP not null comment '创建时间',
+    updateTime datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
+    isDelete   tinyint  default 0                 not null comment '是否删除',
+    constraint idx_tagName
+        unique (tagName)
+) comment '标签' collate = utf8mb4_unicode_ci;
+
 

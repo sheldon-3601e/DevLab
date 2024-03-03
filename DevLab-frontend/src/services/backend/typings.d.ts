@@ -5,9 +5,9 @@ declare namespace API {
     message?: string;
   };
 
-  type BaseResponseInt_ = {
+  type BaseResponseListQuestionTags_ = {
     code?: number;
-    data?: number;
+    data?: QuestionTags[];
     message?: string;
   };
 
@@ -35,15 +35,21 @@ declare namespace API {
     message?: string;
   };
 
-  type BaseResponsePagePost_ = {
+  type BaseResponsePageQuestion_ = {
     code?: number;
-    data?: PagePost_;
+    data?: PageQuestion_;
     message?: string;
   };
 
-  type BaseResponsePagePostVO_ = {
+  type BaseResponsePageQuestionSubmitVO_ = {
     code?: number;
-    data?: PagePostVO_;
+    data?: PageQuestionSubmitVO_;
+    message?: string;
+  };
+
+  type BaseResponsePageQuestionVO_ = {
+    code?: number;
+    data?: PageQuestionVO_;
     message?: string;
   };
 
@@ -65,9 +71,9 @@ declare namespace API {
     message?: string;
   };
 
-  type BaseResponsePostVO_ = {
+  type BaseResponseQuestionVO_ = {
     code?: number;
-    data?: PostVO;
+    data?: QuestionVO;
     message?: string;
   };
 
@@ -93,7 +99,7 @@ declare namespace API {
     id?: string;
   };
 
-  type getPostVOByIdUsingGETParams = {
+  type getQuestionVOByIdUsingGETParams = {
     /** id */
     id?: string;
   };
@@ -106,6 +112,23 @@ declare namespace API {
   type getUserVOByIdUsingGETParams = {
     /** id */
     id?: string;
+  };
+
+  type JudgeCase = {
+    input?: string;
+    output?: string;
+  };
+
+  type JudgeConfig = {
+    memoryLimit?: string;
+    stackLimit?: string;
+    timeLimit?: string;
+  };
+
+  type JudgeInfo = {
+    memory?: string;
+    message?: string;
+    time?: string;
   };
 
   type LoginUserVO = {
@@ -126,27 +149,40 @@ declare namespace API {
     column?: string;
   };
 
-  type PagePost_ = {
+  type PageQuestion_ = {
     countId?: string;
     current?: string;
     maxLimit?: string;
     optimizeCountSql?: boolean;
     orders?: OrderItem[];
     pages?: string;
-    records?: Post[];
+    records?: Question[];
     searchCount?: boolean;
     size?: string;
     total?: string;
   };
 
-  type PagePostVO_ = {
+  type PageQuestionSubmitVO_ = {
     countId?: string;
     current?: string;
     maxLimit?: string;
     optimizeCountSql?: boolean;
     orders?: OrderItem[];
     pages?: string;
-    records?: PostVO[];
+    records?: QuestionSubmitVO[];
+    searchCount?: boolean;
+    size?: string;
+    total?: string;
+  };
+
+  type PageQuestionVO_ = {
+    countId?: string;
+    current?: string;
+    maxLimit?: string;
+    optimizeCountSql?: boolean;
+    orders?: OrderItem[];
+    pages?: string;
+    records?: QuestionVO[];
     searchCount?: boolean;
     size?: string;
     total?: string;
@@ -191,12 +227,17 @@ declare namespace API {
     total?: string;
   };
 
-  type Post = {
+  type Question = {
+    acceptedNum?: number;
+    answer?: string;
     content?: string;
     createTime?: string;
     favourNum?: number;
     id?: string;
     isDelete?: number;
+    judgeCase?: string;
+    judgeConfig?: string;
+    submitNum?: number;
     tags?: string;
     thumbNum?: number;
     title?: string;
@@ -204,69 +245,97 @@ declare namespace API {
     userId?: string;
   };
 
-  type PostAddRequest = {
+  type QuestionAddRequest = {
+    answer?: string;
     content?: string;
+    judgeCase?: JudgeCase[];
+    judgeConfig?: JudgeConfig;
     tags?: string[];
     title?: string;
   };
 
-  type PostEditRequest = {
+  type QuestionEditRequest = {
+    answer?: string;
     content?: string;
     id?: string;
+    judgeCase?: JudgeCase[];
+    judgeConfig?: JudgeConfig;
     tags?: string[];
     title?: string;
   };
 
-  type PostFavourAddRequest = {
-    postId?: string;
-  };
-
-  type PostFavourQueryRequest = {
-    current?: number;
-    pageSize?: number;
-    postQueryRequest?: PostQueryRequest;
-    sortField?: string;
-    sortOrder?: string;
-    total?: number;
-    userId?: string;
-  };
-
-  type PostQueryRequest = {
+  type QuestionQueryRequest = {
+    answer?: string;
     content?: string;
     current?: number;
-    favourUserId?: string;
     id?: string;
-    notId?: string;
-    orTags?: string[];
     pageSize?: number;
-    searchText?: string;
     sortField?: string;
     sortOrder?: string;
     tags?: string[];
     title?: string;
-    total?: number;
     userId?: string;
   };
 
-  type PostThumbAddRequest = {
-    postId?: string;
+  type QuestionSubmitAddRequest = {
+    code?: string;
+    language?: string;
+    questionId?: string;
   };
 
-  type PostUpdateRequest = {
+  type QuestionSubmitQueryRequest = {
+    current?: number;
+    language?: string;
+    pageSize?: number;
+    questionId?: string;
+    sortField?: string;
+    sortOrder?: string;
+    status?: number;
+    userId?: string;
+  };
+
+  type QuestionSubmitVO = {
+    code?: string;
+    createTime?: string;
+    id?: string;
+    judgeInfo?: JudgeInfo;
+    language?: string;
+    questionId?: string;
+    questionVO?: QuestionVO;
+    status?: number;
+    updateTime?: string;
+    userId?: string;
+    userVO?: UserVO;
+  };
+
+  type QuestionTags = {
+    createTime?: string;
+    id?: string;
+    isDelete?: number;
+    tagName?: string;
+    updateTime?: string;
+    userId?: string;
+  };
+
+  type QuestionUpdateRequest = {
+    answer?: string;
     content?: string;
     id?: string;
+    judgeCase?: JudgeCase[];
+    judgeConfig?: JudgeConfig;
     tags?: string[];
     title?: string;
   };
 
-  type PostVO = {
+  type QuestionVO = {
+    acceptedNum?: number;
     content?: string;
     createTime?: string;
     favourNum?: number;
-    hasFavour?: boolean;
-    hasThumb?: boolean;
     id?: string;
-    tagList?: string[];
+    judgeConfig?: JudgeConfig;
+    submitNum?: number;
+    tags?: string[];
     thumbNum?: number;
     title?: string;
     updateTime?: string;
@@ -304,7 +373,6 @@ declare namespace API {
     current?: number;
     description?: string;
     expireTime?: string;
-    id?: string;
     maxNum?: number;
     pageSize?: number;
     searchKey?: string;
@@ -312,8 +380,6 @@ declare namespace API {
     sortOrder?: string;
     status?: number;
     teamName?: string;
-    total?: number;
-    userId?: string;
   };
 
   type TeamQuitRequest = {
@@ -372,11 +438,6 @@ declare namespace API {
     userRole?: string;
   };
 
-  type userLoginByWxOpenUsingGETParams = {
-    /** code */
-    code: string;
-  };
-
   type UserLoginRequest = {
     userAccount?: string;
     userPassword?: string;
@@ -388,7 +449,6 @@ declare namespace API {
     pageSize?: number;
     sortField?: string;
     sortOrder?: string;
-    total?: number;
   };
 
   type UserQueryByTagRequest = {
@@ -398,7 +458,6 @@ declare namespace API {
     sortField?: string;
     sortOrder?: string;
     tagNameList?: string[];
-    total?: number;
   };
 
   type UserQueryRequest = {
@@ -408,7 +467,6 @@ declare namespace API {
     pageSize?: number;
     sortField?: string;
     sortOrder?: string;
-    total?: number;
     unionId?: string;
     userName?: string;
     userProfile?: string;

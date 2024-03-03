@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.sheldon.devlab.backend.mapper.UserTeamMapper">
+<mapper namespace="com.sheldon.devlab.mapper.UserTeamMapper">
 
-    <resultMap id="BaseResultMap" type="com.sheldon.devlab.backend.model.entity.UserTeam">
+    <resultMap id="BaseResultMap" type="com.sheldon.devlab.model.entity.UserTeam">
             <id property="id" column="id" jdbcType="BIGINT"/>
             <result property="userId" column="userId" jdbcType="BIGINT"/>
             <result property="teamId" column="teamId" jdbcType="BIGINT"/>

@@ -3,7 +3,7 @@
 # @from <a href="https://github.com/sheldon-3601e">sheldon</a>
 spring:
   application:
-    name: devlab-backend
+    name: match-backend
   # 默认 dev 环境
   profiles:
     active: dev
@@ -70,4 +70,4 @@ knife4j:
       default:
         api-rule: package
         api-rule-resources:
-          - com.sheldon.match.controller
+          - com.sheldon.devlab.controller
