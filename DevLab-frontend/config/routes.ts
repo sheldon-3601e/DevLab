@@ -1,7 +1,7 @@
 export default [
   { path: '/user', layout: false, routes: [{ path: '/user/login', component: './User/Login' }] },
   { path: '/welcome', icon: 'smile', component: './Welcome', name: '欢迎' },
-
+  { path: '/test', icon: 'smile', component: './TestPage', name: '测试' },
   {
     icon: 'bankOutlined',
     path: '/match/home',
