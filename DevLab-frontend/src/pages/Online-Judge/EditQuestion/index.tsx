@@ -4,6 +4,7 @@ import MyMdEditor from '@/components/MyMdEditor';
 import {
   addQuestionUsingPost,
   getQuestionTagsUsingGet,
+  getQuestionVoByIdUsingGet,
 } from '@/services/backend/questionController';
 import {
   PageContainer,
@@ -16,6 +17,7 @@ import {
 import '@umijs/max';
 import { Form, message } from 'antd';
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
 
 interface TagsOptionsType {
@@ -23,20 +25,13 @@ interface TagsOptionsType {
   value: string;
 }
 
-const AddQuestion: React.FC = () => {
+const EditQuestion: React.FC = () => {
   const navigate = useNavigate();
+  const params = useParams();
 
-  const [content, setContent] = useState('');
-  const [answer, setAnswer] = useState('');
-  const [caseString, setCaseString] = useState('');
   const [questionTags, setQuestionTags] = useState<TagsOptionsType[]>([]);
+  const [initData, setInitData] = useState({});
 
-  // TODO 获取题目可以添加的标签
-  // const questionTags = [
-  //   {label: '选项1', value: 1},
-  //   {label: '选项2', value: 2},
-  //   {label: '选项3', value: 3},
-  // ]
   const fetchQuestionTags = async () => {
     const result = await getQuestionTagsUsingGet();
     if (result.data) {
@@ -48,7 +43,23 @@ const AddQuestion: React.FC = () => {
     }
   };
 
+  const fetchQuestionData = async () => {
+    if (params.id) {
+      const result = await getQuestionVoByIdUsingGet({
+        id: params.id,
+      });
+      console.log(result.data);
+      if (result.data) {
+        setInitData(result.data);
+      }
+    } else {
+      message.error('页面错误，请你返回');
+      navigate('/');
+    }
+  };
+
   useEffect(() => {
+    fetchQuestionData();
     fetchQuestionTags();
   }, []);
 
@@ -56,6 +67,7 @@ const AddQuestion: React.FC = () => {
   const handleAdd = async (value: API.QuestionAddRequest) => {
     console.log(value);
     // 解析JSON字符串为JavaScript对象数组
+    // @ts-ignore
     value.judgeCase = JSON.parse(value.judgeCase);
     const result = await addQuestionUsingPost({
       ...value,
@@ -68,6 +80,7 @@ const AddQuestion: React.FC = () => {
   return (
     <PageContainer title={'创建题目'}>
       <ProCard>
+        {/* TODO 加载原始数据*/}
         <ProForm<API.QuestionAddRequest>
           style={{ padding: '10px' }}
           layout={'vertical'}
@@ -124,4 +137,4 @@ const AddQuestion: React.FC = () => {
     </PageContainer>
   );
 };
-export default AddQuestion;
+export default EditQuestion;

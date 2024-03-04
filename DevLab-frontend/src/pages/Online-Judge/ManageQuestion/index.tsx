@@ -1,15 +1,15 @@
 import TagList from '@/components/TagList';
-import CreateModal from '@/pages/Admin/User/components/CreateModal';
-import UpdateModal from '@/pages/Admin/User/components/UpdateModal';
-import {deleteQuestionUsingPost, listMyQuestionVoByPageUsingPost} from '@/services/backend/questionController';
-import { deleteUserUsingPost } from '@/services/backend/userController';
+import {
+  deleteQuestionUsingPost,
+  listMyQuestionVoByPageUsingPost,
+} from '@/services/backend/questionController';
 import { PlusOutlined } from '@ant-design/icons';
 import type { ActionType, ProColumns } from '@ant-design/pro-components';
 import { PageContainer, ProTable } from '@ant-design/pro-components';
 import '@umijs/max';
 import { Button, message, Popconfirm, Space, Tag } from 'antd';
-import React, { useRef, useState } from 'react';
-import {useNavigate} from "react-router-dom";
+import React, { useRef } from 'react';
+import {  useNavigate } from 'react-router-dom';
 
 /**
  * 用户管理页面
@@ -17,21 +17,16 @@ import {useNavigate} from "react-router-dom";
  * @constructor
  */
 const ManageQuestion: React.FC = () => {
-  // 是否显示新建窗口
-  const [createModalVisible, setCreateModalVisible] = useState<boolean>(false);
-  // 是否显示更新窗口
-  const [updateModalVisible, setUpdateModalVisible] = useState<boolean>(false);
-  const actionRef = useRef<ActionType>();
-  // 当前用户点击的数据
-  const [currentRow, setCurrentRow] = useState<API.User>();
 
+  const actionRef = useRef<ActionType>();
+  const navigate = useNavigate();
   /**
    * 删除节点
    *
    * @param row
    */
   const handleDelete = async (row: API.QuestionVO) => {
-    console.log(row)
+    console.log(row);
     const hide = message.loading('正在删除');
     if (!row) return true;
     try {
@@ -41,7 +36,7 @@ const ManageQuestion: React.FC = () => {
       if (res.data) {
         hide();
         message.success('删除成功');
-        actionRef?.current?.reload();
+        actionRef.current?.reload();
         return true;
       }
     } catch (error: any) {
@@ -51,7 +46,7 @@ const ManageQuestion: React.FC = () => {
     }
   };
 
-  const navigate = useNavigate()
+
 
   /**
    * 表格列配置
@@ -61,7 +56,7 @@ const ManageQuestion: React.FC = () => {
       title: 'id',
       dataIndex: 'title',
       valueType: 'text',
-      hideInTable: true
+      hideInTable: true,
     },
     {
       title: '题目名称',
@@ -79,14 +74,14 @@ const ManageQuestion: React.FC = () => {
       dataIndex: 'submitNum',
       valueType: 'text',
       sorter: true,
-      hideInSearch: true
+      hideInSearch: true,
     },
     {
       title: '通过数',
       dataIndex: 'acceptedNum',
       valueType: 'textarea',
       sorter: true,
-      hideInSearch: true
+      hideInSearch: true,
     },
     {
       title: '通过率',
@@ -121,7 +116,7 @@ const ManageQuestion: React.FC = () => {
           <Button
             type={'dashed'}
             onClick={() => {
-              navigate(`/online_judge/edit/${record.id}`)
+              navigate(`/question/edit/${record.id}`);
             }}
           >
             修改
@@ -154,7 +149,7 @@ const ManageQuestion: React.FC = () => {
             type="primary"
             key="primary"
             onClick={() => {
-              navigate('/online_judge/add');
+              navigate('/question/add');
             }}
           >
             <PlusOutlined /> 新建
@@ -178,30 +173,6 @@ const ManageQuestion: React.FC = () => {
           };
         }}
         columns={columns}
-      />
-      <CreateModal
-        visible={createModalVisible}
-        columns={columns}
-        onSubmit={() => {
-          setCreateModalVisible(false);
-          actionRef.current?.reload();
-        }}
-        onCancel={() => {
-          setCreateModalVisible(false);
-        }}
-      />
-      <UpdateModal
-        visible={updateModalVisible}
-        columns={columns}
-        oldData={currentRow}
-        onSubmit={() => {
-          setUpdateModalVisible(false);
-          setCurrentRow(undefined);
-          actionRef.current?.reload();
-        }}
-        onCancel={() => {
-          setUpdateModalVisible(false);
-        }}
       />
     </PageContainer>
   );

@@ -26,9 +26,6 @@ interface TagsOptionsType {
 const AddQuestion: React.FC = () => {
   const navigate = useNavigate();
 
-  const [content, setContent] = useState('');
-  const [answer, setAnswer] = useState('');
-  const [caseString, setCaseString] = useState('');
   const [questionTags, setQuestionTags] = useState<TagsOptionsType[]>([]);
 
   // TODO 获取题目可以添加的标签
@@ -56,12 +53,14 @@ const AddQuestion: React.FC = () => {
   const handleAdd = async (value: API.QuestionAddRequest) => {
     console.log(value);
     // 解析JSON字符串为JavaScript对象数组
+    // @ts-ignore
     value.judgeCase = JSON.parse(value.judgeCase);
     const result = await addQuestionUsingPost({
       ...value,
     });
     if (result.data) {
       message.success('添加成功');
+      navigate("/question/manage")
     }
   };
 

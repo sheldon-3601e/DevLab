@@ -154,13 +154,18 @@ public class QuestionController {
      * @return
      */
     @GetMapping("/get/vo")
-    public BaseResponse<QuestionEditVO> getQuestionVOById(@RequestParam Long id, HttpServletRequest request) {
+    public BaseResponse<QuestionEditVO> getQuestionVOById(Long id, HttpServletRequest request) {
         if (id <= 0) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
         Question question = questionService.getById(id);
         if (question == null) {
             throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
+        }
+        // 只有本人或者管理员可以查看
+        User loginUser = userService.getLoginUser(request);
+        if (!question.getUserId().equals(loginUser.getId()) && !userService.isAdmin(loginUser)) {
+            throw new BusinessException(ErrorCode.NO_AUTH_ERROR);
         }
         QuestionEditVO questionEditVO = questionService.handleQuestionEditVO(question, request);
         return ResultUtils.success(questionEditVO);
