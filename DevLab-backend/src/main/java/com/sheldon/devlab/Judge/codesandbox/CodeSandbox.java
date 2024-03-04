@@ -12,6 +12,6 @@ import com.sheldon.devlab.Judge.codesandbox.model.ExecuteCodeResponse;
  */
 public interface CodeSandbox {
 
-      ExecuteCodeResponse executeCode(ExecuteCodeRequest executeCodeRequest);
+    ExecuteCodeResponse executeCode(ExecuteCodeRequest executeCodeRequest);
 
 }
