@@ -18,6 +18,7 @@ import { Form, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
+import {useModel} from "@umijs/max";
 
 interface TagsOptionsType {
   label: string;
@@ -28,18 +29,17 @@ const EditQuestion: React.FC = () => {
   const navigate = useNavigate();
   const params = useParams();
 
-  const [questionTags, setQuestionTags] = useState<TagsOptionsType[]>([]);
+  const { initialState } = useModel('@@initialState');
+  // 定义 questionTags 变量
+  const questionTags = initialState?.questionTags
+    ? initialState.questionTags.map((tag) => ({
+      label: tag.tagName ?? '',
+      value: tag.tagName ?? '',
+    }))
+    : []; // 设置默认值为空数组
 
-  const fetchQuestionTags = async () => {
-    const result = await getQuestionTagsUsingGet();
-    if (result.data) {
-      const tagsOptions = result.data.map((tag) => ({
-        label: tag.tagName ?? '',
-        value: tag.tagName ?? '',
-      }));
-      setQuestionTags(tagsOptions);
-    }
-  };
+// 在后续代码中可以直接使用 questionTags 变量
+
 
   const [form] = Form.useForm()
   const fetchQuestionData = async () => {
@@ -58,7 +58,6 @@ const EditQuestion: React.FC = () => {
 
   useEffect(() => {
     fetchQuestionData();
-    fetchQuestionTags();
   }, []);
 
   //添加节点
@@ -75,20 +74,6 @@ const EditQuestion: React.FC = () => {
       message.success('修改成功');
     }
   };
-  //
-  // const initData = {
-  //   id: '1764331838811181058',
-  //   title: '1111',
-  //   content: '# test',
-  //   tags: ['1', '2'],
-  //   answer: '# test\n# test',
-  //   judgeCase: "[{'input': '111','output': '222',},{'input': '111','output': '222',},]",
-  //   judgeConfig: {
-  //     timeLimit: '111',
-  //     memoryLimit: '222',
-  //     stackLimit: '332',
-  //   },
-  // };
 
   return (
     <PageContainer title={'创建题目'}>

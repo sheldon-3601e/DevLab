@@ -7,6 +7,7 @@ import {requestConfig} from './requestConfig';
 import {getLoginUserUsingGet} from '@/services/backend/userController';
 import {listTagVoUsingPost} from '@/services/backend/tagController';
 import {message} from 'antd';
+import {getQuestionTagsUsingGet} from "@/services/backend/questionController";
 
 const loginPath = '/user/login';
 const welcomePath = '/welcome';
@@ -18,10 +19,17 @@ export async function getInitialState(): Promise<InitialState> {
     tagList: [],
     questionTags: [],
   };
+
   const tagRes = await listTagVoUsingPost()
   if (tagRes.data) {
     initialState.tagList = tagRes.data
   }
+
+  const result = await getQuestionTagsUsingGet();
+  if (result.data) {
+    initialState.questionTags = result.data
+  }
+
   // 如果不是登录页面，执行
   const {location} = history;
   if (location.pathname !== loginPath && location.pathname !== welcomePath) {

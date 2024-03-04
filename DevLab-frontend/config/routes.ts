@@ -45,6 +45,18 @@ export default [
     access: 'canLogin',
     routes: [
       {
+        path: '/question/list',
+        icon: 'smile',
+        component: './Online-Judge/ListQuestion',
+        name: '题目列表',
+      },
+      {
+        path: '/question/view',
+        icon: 'smile',
+        component: './Online-Judge/ViewQuestion',
+        name: '题目详情',
+      },
+      {
         path: '/question/manage',
         icon: 'smile',
         component: './Online-Judge/ManageQuestion',

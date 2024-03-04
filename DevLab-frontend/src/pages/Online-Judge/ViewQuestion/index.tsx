@@ -1,23 +1,22 @@
 import TagList from '@/components/TagList';
 import {
   deleteQuestionUsingPost,
-  listMyQuestionVoByPageUsingPost,
+  listQuestionVoByPageUsingPost,
 } from '@/services/backend/questionController';
-import { PlusOutlined } from '@ant-design/icons';
-import type { ActionType, ProColumns } from '@ant-design/pro-components';
-import { PageContainer, ProTable } from '@ant-design/pro-components';
+import {PlusOutlined} from '@ant-design/icons';
+import type {ActionType, ProColumns} from '@ant-design/pro-components';
+import {PageContainer, ProTable} from '@ant-design/pro-components';
 import '@umijs/max';
-import { Button, message, Popconfirm, Space, Tag } from 'antd';
-import React, { useRef } from 'react';
-import {  useNavigate } from 'react-router-dom';
+import {Button, message, Space, Tag} from 'antd';
+import React, {useRef} from 'react';
+import {useNavigate} from 'react-router-dom';
 
 /**
  * 用户管理页面
  *
  * @constructor
  */
-const ManageQuestion: React.FC = () => {
-
+const ViewQuestion: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const navigate = useNavigate();
   /**
@@ -46,8 +45,6 @@ const ManageQuestion: React.FC = () => {
     }
   };
 
-
-
   /**
    * 表格列配置
    */
@@ -57,7 +54,7 @@ const ManageQuestion: React.FC = () => {
       dataIndex: 'title',
       valueType: 'text',
       hideInTable: true,
-      hideInSearch: true
+      hideInSearch: true,
     },
     {
       title: '题目名称',
@@ -66,9 +63,9 @@ const ManageQuestion: React.FC = () => {
     },
     {
       title: '标签',
-      dataIndex: 'option',
-      valueType: 'option',
-      render: (_, record) => <TagList tags={record.tags ?? []} />,
+      dataIndex: 'tags',
+      hideInSearch: true,
+      render: (_, record) => <TagList tags={record.tags ?? []}/>,
     },
     {
       title: '提交数',
@@ -117,21 +114,11 @@ const ManageQuestion: React.FC = () => {
           <Button
             type={'dashed'}
             onClick={() => {
-              navigate(`/question/edit/${record.id}`);
+              navigate(`/question/view/${record.id}`);
             }}
           >
-            修改
+            详情
           </Button>
-          <Popconfirm
-            placement="left"
-            title={'确认'}
-            description={'你确认要删除该题目？'}
-            okText="Yes"
-            cancelText="No"
-            onConfirm={() => handleDelete(record)}
-          >
-            <Button danger={true}>删除</Button>
-          </Popconfirm>
         </Space>
       ),
     },
@@ -143,9 +130,6 @@ const ManageQuestion: React.FC = () => {
         key={'id'}
         actionRef={actionRef}
         rowKey="id"
-        search={{
-          labelWidth: 120,
-        }}
         toolBarRender={() => [
           <Button
             type="primary"
@@ -154,14 +138,14 @@ const ManageQuestion: React.FC = () => {
               navigate('/question/add');
             }}
           >
-            <PlusOutlined /> 新建
+            <PlusOutlined/> 新建
           </Button>,
         ]}
         request={async (params, sort, filter) => {
           const sortField = Object.keys(sort)?.[0];
           const sortOrder = sort?.[sortField] ?? undefined;
 
-          const { data, code } = await listMyQuestionVoByPageUsingPost({
+          const {data, code} = await listQuestionVoByPageUsingPost({
             ...params,
             sortField,
             sortOrder,
@@ -179,4 +163,4 @@ const ManageQuestion: React.FC = () => {
     </PageContainer>
   );
 };
-export default ManageQuestion;
+export default ViewQuestion;
