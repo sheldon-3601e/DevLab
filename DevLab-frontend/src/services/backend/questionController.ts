@@ -53,7 +53,7 @@ export async function getQuestionVoByIdUsingGet(
   params: API.getQuestionVOByIdUsingGETParams,
   options?: { [key: string]: any },
 ) {
-  return request<API.BaseResponseQuestionVO_>('/api/question/get/vo', {
+  return request<API.BaseResponseQuestionEditVO_>('/api/question/get/vo', {
     method: 'GET',
     params: {
       ...params,

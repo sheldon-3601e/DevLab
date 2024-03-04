@@ -1,6 +1,8 @@
 package com.sheldon.devlab.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -9,9 +11,12 @@ import com.sheldon.devlab.constant.CommonConstant;
 import com.sheldon.devlab.exception.BusinessException;
 import com.sheldon.devlab.exception.ThrowUtils;
 import com.sheldon.devlab.mapper.QuestionMapper;
+import com.sheldon.devlab.model.dto.question.JudgeCase;
 import com.sheldon.devlab.model.dto.question.QuestionQueryRequest;
+import com.sheldon.devlab.model.dto.questionSubmit.JudgeConfig;
 import com.sheldon.devlab.model.entity.Question;
 import com.sheldon.devlab.model.entity.User;
+import com.sheldon.devlab.model.vo.QuestionEditVO;
 import com.sheldon.devlab.model.vo.QuestionVO;
 import com.sheldon.devlab.model.vo.UserVO;
 import com.sheldon.devlab.service.QuestionService;
@@ -149,6 +154,30 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question>
         }).collect(Collectors.toList());
         questionVOPage.setRecords(questionVOList);
         return questionVOPage;
+    }
+
+    @Override
+    public QuestionEditVO handleQuestionEditVO(Question question, HttpServletRequest request) {
+
+        QuestionEditVO questionEditVO = new QuestionEditVO();
+        questionEditVO.setId(question.getId());
+        questionEditVO.setTitle(question.getTitle());
+        questionEditVO.setContent(question.getContent());
+        questionEditVO.setAnswer(question.getAnswer());
+
+        String tagStr = question.getTags();
+        if (StringUtils.isNotBlank(tagStr)) {
+            questionEditVO.setTags(JSONUtil.toList(tagStr, String.class));
+        }
+        String judgeCase = question.getJudgeCase();
+        if (StringUtils.isNotBlank(judgeCase)) {
+            questionEditVO.setJudgeCase(JSONUtil.toList(judgeCase, JudgeCase.class));
+        }
+        String judgeConfig = question.getJudgeConfig();
+        if (StringUtils.isNotBlank(judgeConfig)) {
+            questionEditVO.setJudgeConfig(JSONUtil.toBean(judgeConfig, JudgeConfig.class));
+        }
+        return questionEditVO;
     }
 
 }

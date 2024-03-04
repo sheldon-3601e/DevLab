@@ -1,13 +1,15 @@
+import TagList from '@/components/TagList';
 import CreateModal from '@/pages/Admin/User/components/CreateModal';
 import UpdateModal from '@/pages/Admin/User/components/UpdateModal';
-import { deleteUserUsingPost, listUserByPageUsingPost } from '@/services/backend/userController';
+import {deleteQuestionUsingPost, listMyQuestionVoByPageUsingPost} from '@/services/backend/questionController';
+import { deleteUserUsingPost } from '@/services/backend/userController';
 import { PlusOutlined } from '@ant-design/icons';
 import type { ActionType, ProColumns } from '@ant-design/pro-components';
 import { PageContainer, ProTable } from '@ant-design/pro-components';
 import '@umijs/max';
-import { Button, message, Popconfirm, Space } from 'antd';
+import { Button, message, Popconfirm, Space, Tag } from 'antd';
 import React, { useRef, useState } from 'react';
-import {listMyQuestionVoByPageUsingPost} from "@/services/backend/questionController";
+import {useNavigate} from "react-router-dom";
 
 /**
  * 用户管理页面
@@ -28,17 +30,20 @@ const ManageQuestion: React.FC = () => {
    *
    * @param row
    */
-  const handleDelete = async (row: API.User) => {
+  const handleDelete = async (row: API.QuestionVO) => {
+    console.log(row)
     const hide = message.loading('正在删除');
     if (!row) return true;
     try {
-      await deleteUserUsingPost({
+      const res = await deleteQuestionUsingPost({
         id: row.id as any,
       });
-      hide();
-      message.success('删除成功');
-      actionRef?.current?.reload();
-      return true;
+      if (res.data) {
+        hide();
+        message.success('删除成功');
+        actionRef?.current?.reload();
+        return true;
+      }
     } catch (error: any) {
       hide();
       message.error('删除失败，' + error.message);
@@ -46,15 +51,17 @@ const ManageQuestion: React.FC = () => {
     }
   };
 
+  const navigate = useNavigate()
+
   /**
    * 表格列配置
    */
   const columns: ProColumns<API.QuestionVO>[] = [
     {
       title: 'id',
-      dataIndex: 'id',
+      dataIndex: 'title',
       valueType: 'text',
-      hideInForm: true,
+      hideInTable: true
     },
     {
       title: '题目名称',
@@ -63,18 +70,31 @@ const ManageQuestion: React.FC = () => {
     },
     {
       title: '标签',
-      dataIndex: 'tags',
-      valueType: 'text',
+      dataIndex: 'option',
+      valueType: 'option',
+      render: (_, record) => <TagList tags={record.tags ?? []} />,
     },
     {
       title: '提交数',
       dataIndex: 'submitNum',
       valueType: 'text',
+      sorter: true,
+      hideInSearch: true
     },
     {
       title: '通过数',
       dataIndex: 'acceptedNum',
       valueType: 'textarea',
+      sorter: true,
+      hideInSearch: true
+    },
+    {
+      title: '通过率',
+      dataIndex: 'option',
+      valueType: 'option',
+      render: (_, record) => (
+        <Tag color="green">{((record.acceptedNum ?? 0) * 100) / (record.submitNum ?? 0)}%</Tag>
+      ),
     },
     {
       title: '创建时间',
@@ -101,8 +121,7 @@ const ManageQuestion: React.FC = () => {
           <Button
             type={'dashed'}
             onClick={() => {
-              setCurrentRow(record);
-              setUpdateModalVisible(true);
+              navigate(`/online_judge/edit/${record.id}`)
             }}
           >
             修改
@@ -110,12 +129,12 @@ const ManageQuestion: React.FC = () => {
           <Popconfirm
             placement="left"
             title={'确认'}
-            description={'你确认要删除该用户吗？'}
+            description={'你确认要删除该题目？'}
             okText="Yes"
             cancelText="No"
             onConfirm={() => handleDelete(record)}
           >
-            <Button danger={true} >删除</Button>
+            <Button danger={true}>删除</Button>
           </Popconfirm>
         </Space>
       ),
@@ -124,9 +143,9 @@ const ManageQuestion: React.FC = () => {
   return (
     <PageContainer>
       <ProTable<API.Question>
-        headerTitle={'查询表格'}
+        headerTitle={'题目列表'}
         actionRef={actionRef}
-        rowKey="key"
+        rowKey="id"
         search={{
           labelWidth: 120,
         }}
@@ -135,7 +154,7 @@ const ManageQuestion: React.FC = () => {
             type="primary"
             key="primary"
             onClick={() => {
-              setCreateModalVisible(true);
+              navigate('/online_judge/add');
             }}
           >
             <PlusOutlined /> 新建

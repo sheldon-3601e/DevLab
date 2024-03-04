@@ -14,6 +14,7 @@ import com.sheldon.devlab.model.dto.questionSubmit.JudgeConfig;
 import com.sheldon.devlab.model.entity.Question;
 import com.sheldon.devlab.model.entity.QuestionTags;
 import com.sheldon.devlab.model.entity.User;
+import com.sheldon.devlab.model.vo.QuestionEditVO;
 import com.sheldon.devlab.model.vo.QuestionVO;
 import com.sheldon.devlab.service.QuestionService;
 import com.sheldon.devlab.service.QuestionTagsService;
@@ -153,7 +154,7 @@ public class QuestionController {
      * @return
      */
     @GetMapping("/get/vo")
-    public BaseResponse<QuestionVO> getQuestionVOById(long id, HttpServletRequest request) {
+    public BaseResponse<QuestionEditVO> getQuestionVOById(@RequestParam Long id, HttpServletRequest request) {
         if (id <= 0) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
@@ -161,7 +162,8 @@ public class QuestionController {
         if (question == null) {
             throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
         }
-        return ResultUtils.success(questionService.getQuestionVO(question, request));
+        QuestionEditVO questionEditVO = questionService.handleQuestionEditVO(question, request);
+        return ResultUtils.success(questionEditVO);
     }
 
     /**

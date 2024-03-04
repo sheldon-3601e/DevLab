@@ -4,8 +4,8 @@ import {javascript} from '@codemirror/lang-javascript';
 import {githubDark} from '@uiw/codemirror-theme-github'
 
 interface CodeEditorPropsType {
-  value: string,
-  handleChange: (v: string, viewUpdate: ViewUpdate) => void,
+  value?: string,
+  onChange?: (v: string, viewUpdate: ViewUpdate) => void,
   lang: string
 }
 
@@ -29,7 +29,7 @@ const CodeEditor: React.FC<CodeEditorPropsType> = (props) => {
       height="200px"
       extensions={[javascript({jsx: true})]}
       onChange={(value, viewUpdate) => {
-        props.handleChange(value, viewUpdate)
+        props.onChange(value, viewUpdate)
       }}
     />
   )

@@ -71,9 +71,9 @@ declare namespace API {
     message?: string;
   };
 
-  type BaseResponseQuestionVO_ = {
+  type BaseResponseQuestionEditVO_ = {
     code?: number;
-    data?: QuestionVO;
+    data?: QuestionEditVO;
     message?: string;
   };
 
@@ -101,7 +101,7 @@ declare namespace API {
 
   type getQuestionVOByIdUsingGETParams = {
     /** id */
-    id?: string;
+    id: string;
   };
 
   type getUserByIdUsingGETParams = {
@@ -255,6 +255,16 @@ declare namespace API {
   };
 
   type QuestionEditRequest = {
+    answer?: string;
+    content?: string;
+    id?: string;
+    judgeCase?: JudgeCase[];
+    judgeConfig?: JudgeConfig;
+    tags?: string[];
+    title?: string;
+  };
+
+  type QuestionEditVO = {
     answer?: string;
     content?: string;
     id?: string;

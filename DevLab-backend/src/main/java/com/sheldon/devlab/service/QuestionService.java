@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.sheldon.devlab.model.dto.question.QuestionQueryRequest;
 import com.sheldon.devlab.model.entity.Question;
+import com.sheldon.devlab.model.vo.QuestionEditVO;
 import com.sheldon.devlab.model.vo.QuestionVO;
 
 import javax.servlet.http.HttpServletRequest;
@@ -51,4 +52,12 @@ public interface QuestionService extends IService<Question> {
      */
     Page<QuestionVO> getQuestionVOPage(Page<Question> questionPage, HttpServletRequest request);
 
+    /**
+     * 获取题目编辑封装
+     *
+     * @param question
+     * @param request
+     * @return
+     */
+    QuestionEditVO handleQuestionEditVO(Question question, HttpServletRequest request);
 }

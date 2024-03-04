@@ -7,8 +7,8 @@ import 'react-markdown-editor-lite/lib/index.css';
 const mdParser = new MarkdownIt(/* Markdown-it options */);
 
 interface EditorProps {
-  value: string;
-  handleChange: (v: string) => void;
+  value?: string;
+  onChange?: (v: string) => void;
 }
 
 // Markdown 编辑器组件
@@ -22,7 +22,9 @@ const MyMdEditor: React.FC<EditorProps> = (props) => {
       renderHTML={(text) => mdParser.render(text)}
       onChange={(data, event) => {
         // console.log(data, event);
-        props.handleChange(data.text)
+        if (props.onChange) {
+          props.onChange(data.text)
+        }
       }}
     />
   );
