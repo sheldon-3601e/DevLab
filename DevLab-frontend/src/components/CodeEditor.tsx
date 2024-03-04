@@ -17,6 +17,7 @@ const CodeEditor: React.FC<CodeEditorPropsType> = (props) => {
       theme={githubDark}
       value={props.value}
       minWidth={'800px'}
+      minHeight={'100vh'}
       height="200px"
       extensions={[javascript({ jsx: true })]}
       onChange={(value, viewUpdate) => {

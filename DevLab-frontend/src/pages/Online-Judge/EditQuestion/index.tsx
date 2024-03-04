@@ -2,8 +2,7 @@ import CodeEditor from '@/components/CodeEditor';
 import MargBottom16 from '@/components/margBottom16';
 import MyMdEditor from '@/components/MyMdEditor';
 import {
-  addQuestionUsingPost, editQuestionUsingPost,
-  getQuestionTagsUsingGet, getQuestionVoByIdUsingGet,
+  editQuestionUsingPost, getQuestionEditVoByIdUsingGet,
 } from '@/services/backend/questionController';
 import {
   PageContainer,
@@ -15,15 +14,10 @@ import {
 } from '@ant-design/pro-components';
 import '@umijs/max';
 import { Form, message } from 'antd';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
-import {useModel} from "@umijs/max";
-
-interface TagsOptionsType {
-  label: string;
-  value: string;
-}
+import { useModel } from '@umijs/max';
 
 const EditQuestion: React.FC = () => {
   const navigate = useNavigate();
@@ -38,13 +32,11 @@ const EditQuestion: React.FC = () => {
     }))
     : []; // 设置默认值为空数组
 
-// 在后续代码中可以直接使用 questionTags 变量
-
 
   const [form] = Form.useForm()
   const fetchQuestionData = async () => {
     if (params.id) {
-      const result = await getQuestionVoByIdUsingGet({
+      const result = await getQuestionEditVoByIdUsingGet({
         id: params.id,
       });
       if (result.data) {

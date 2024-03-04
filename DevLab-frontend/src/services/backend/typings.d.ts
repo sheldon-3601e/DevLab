@@ -77,6 +77,12 @@ declare namespace API {
     message?: string;
   };
 
+  type BaseResponseQuestionVO_ = {
+    code?: number;
+    data?: QuestionVO;
+    message?: string;
+  };
+
   type BaseResponseString_ = {
     code?: number;
     data?: string;
@@ -96,6 +102,11 @@ declare namespace API {
   };
 
   type DeleteRequest = {
+    id?: string;
+  };
+
+  type getQuestionEditVOByIdUsingGETParams = {
+    /** id */
     id?: string;
   };
 

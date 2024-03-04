@@ -1,17 +1,16 @@
-import React, {useState} from 'react';
-import CodeEditor from "@/components/CodeEditor";
+import React from 'react';
+import ReactMarkdown from 'react-markdown';
+import {Grid} from "antd";
 
-const TestPage = () => {
-
-  const [value, setValue] = useState("console.log('hello world!');");
-  const onChange = (val, viewUpdate) => {
-    console.log('val:', val);
-    setValue(val);
-  };
+const Document = () => {
+  const [mdContent, setMdContent] = React.useState('')
 
   return (
-    <CodeEditor value={value} handleChange={onChange} lang={'java'}/>
-  )
+    <div >
+          <ReactMarkdown className={"markdown-body"} >{"# test"}</ReactMarkdown>
+    </div>
+  );
 };
 
-export default TestPage;
+export default Document;
+

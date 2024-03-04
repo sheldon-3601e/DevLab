@@ -51,7 +51,7 @@ export default [
         name: '题目列表',
       },
       {
-        path: '/question/view',
+        path: '/question/view/:id',
         icon: 'smile',
         component: './Online-Judge/ViewQuestion',
         name: '题目详情',

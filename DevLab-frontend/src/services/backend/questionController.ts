@@ -47,13 +47,28 @@ export async function editQuestionUsingPost(
   });
 }
 
+/** getQuestionEditVOById GET /api/question/get/edit/vo */
+export async function getQuestionEditVoByIdUsingGet(
+  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
+  params: API.getQuestionEditVOByIdUsingGETParams,
+  options?: { [key: string]: any },
+) {
+  return request<API.BaseResponseQuestionEditVO_>('/api/question/get/edit/vo', {
+    method: 'GET',
+    params: {
+      ...params,
+    },
+    ...(options || {}),
+  });
+}
+
 /** getQuestionVOById GET /api/question/get/vo */
 export async function getQuestionVoByIdUsingGet(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
   params: API.getQuestionVOByIdUsingGETParams,
   options?: { [key: string]: any },
 ) {
-  return request<API.BaseResponseQuestionEditVO_>('/api/question/get/vo', {
+  return request<API.BaseResponseQuestionVO_>('/api/question/get/vo', {
     method: 'GET',
     params: {
       ...params,
