@@ -137,7 +137,7 @@ const ManageQuestion: React.FC = () => {
   ];
   return (
     <PageContainer>
-      <ProTable<API.Question>
+      <ProTable<API.QuestionVO>
         headerTitle={'题目列表'}
         actionRef={actionRef}
         rowKey="id"

@@ -44,7 +44,7 @@ public class QuestionEditVO implements Serializable {
     /**
      * 判题用例（json 数组）
      */
-    private List<JudgeCase> judgeCase;
+    private String judgeCase;
 
     /**
      * 判题配置（json 对象）

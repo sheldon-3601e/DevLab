@@ -1,12 +1,12 @@
 import Footer from '@/components/Footer';
-import type { RunTimeLayoutConfig } from '@umijs/max';
-import { history } from '@umijs/max';
+import type {RunTimeLayoutConfig} from '@umijs/max';
+import {history} from '@umijs/max';
 import defaultSettings from '../config/defaultSettings';
-import { AvatarDropdown } from './components/RightContent/AvatarDropdown';
-import { requestConfig } from './requestConfig';
-import { getLoginUserUsingGet } from '@/services/backend/userController';
-import { listTagVoUsingPost } from '@/services/backend/tagController';
-import { message } from 'antd';
+import {AvatarDropdown} from './components/RightContent/AvatarDropdown';
+import {requestConfig} from './requestConfig';
+import {getLoginUserUsingGet} from '@/services/backend/userController';
+import {listTagVoUsingPost} from '@/services/backend/tagController';
+import {message} from 'antd';
 
 const loginPath = '/user/login';
 const welcomePath = '/welcome';
@@ -16,13 +16,14 @@ export async function getInitialState(): Promise<InitialState> {
   const initialState: InitialState = {
     currentUser: undefined,
     tagList: [],
+    questionTags: [],
   };
   const tagRes = await listTagVoUsingPost()
   if (tagRes.data) {
     initialState.tagList = tagRes.data
   }
   // 如果不是登录页面，执行
-  const { location } = history;
+  const {location} = history;
   if (location.pathname !== loginPath && location.pathname !== welcomePath) {
     try {
       // 获取当前的登录用户
@@ -41,17 +42,17 @@ export async function getInitialState(): Promise<InitialState> {
 
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
 // @ts-ignore
-export const layout: RunTimeLayoutConfig = ({ initialState }) => {
+export const layout: RunTimeLayoutConfig = ({initialState}) => {
   return {
     avatarProps: {
       render: () => {
-        return <AvatarDropdown />;
+        return <AvatarDropdown/>;
       },
     },
     waterMarkProps: {
       content: initialState?.currentUser?.userName,
     },
-    footerRender: () => <Footer />,
+    footerRender: () => <Footer/>,
     menuHeaderRender: undefined,
     // 自定义 403 页面
     // unAccessible: <div>unAccessible</div>,

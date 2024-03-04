@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 /**
  * @ClassName TeamJoinRequest
- * @Author 26483
+ * @Author sheldon
  * @Date 2024/2/22 7:21
  * @Version 1.0
  * @Description 用户退出队伍请求

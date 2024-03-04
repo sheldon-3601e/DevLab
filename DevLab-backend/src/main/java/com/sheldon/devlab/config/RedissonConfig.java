@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * @ClassName RedissonConfig
- * @Author 26483
+ * @Author sheldon
  * @Date 2024/2/20 0:40
  * @Version 1.0
  * @Description TODO

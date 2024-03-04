@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 /**
  * @ClassName JudgeCase
- * @Author 26483
+ * @Author sheldon
  * @Date 2024/3/2 15:44
  * @Version 1.0
  * @Description 题目判题用例
@@ -25,7 +25,7 @@ public class JudgeInfo implements Serializable {
     /**
      * 消耗内存
      */
-    private String memory;
+    private Long memory;
 
     /**
      * 消耗时间

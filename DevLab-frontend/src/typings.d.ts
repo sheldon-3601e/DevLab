@@ -61,4 +61,5 @@ interface BaseResponse<T> {
 interface InitialState {
   currentUser?: API.LoginUserVO;
   tagList?: API.TagVO[];
+  questionTags: API.QuestionTags[];
 }

@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * @ClassName ProRecommendUserList
- * @Author 26483
+ * @Author sheldon
  * @Date 2024/2/19 15:54
  * @Version 1.0
  * @Description 预热推荐用户列表

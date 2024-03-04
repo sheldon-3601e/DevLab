@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * @ClassName TeamWithUserVO
- * @Author 26483
+ * @Author sheldon
  * @Date 2024/2/20 18:39
  * @Version 1.0
  * @Description 队伍用户VO

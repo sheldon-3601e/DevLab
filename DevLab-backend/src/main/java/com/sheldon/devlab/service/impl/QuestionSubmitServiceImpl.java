@@ -3,6 +3,8 @@ package com.sheldon.devlab.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.sheldon.devlab.Judge.JudgeService;
+import com.sheldon.devlab.Judge.strategy.JudgeStrategy;
 import com.sheldon.devlab.common.ErrorCode;
 import com.sheldon.devlab.constant.CommonConstant;
 import com.sheldon.devlab.exception.BusinessException;
@@ -22,14 +24,16 @@ import com.sheldon.devlab.utils.SqlUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 /**
- * @author 26483
+ * @author sheldon
  * @description 针对表【question_submit(题目提交)】的数据库操作Service实现
  * @createDate 2024-03-02 15:25:26
  */
@@ -42,6 +46,10 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
 
     @Resource
     private UserService userService;
+
+    @Resource
+    @Lazy
+    private JudgeService judgeService;
 
     @Override
     public Long doQuestionSubmit(QuestionSubmitAddRequest questionSubmitAddRequest, User loginUser) {
@@ -73,7 +81,10 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
         if (!save) {
             throw new BusinessException(ErrorCode.SYSTEM_ERROR, "数据插入失败");
         }
-        return questionSubmit.getId();
+        // TODO 调用代码沙箱
+        Long questionSubmitId = questionSubmit.getId();
+        CompletableFuture.runAsync(() -> judgeService.doJudge(questionSubmitId));
+        return questionSubmitId;
     }
 
     /**

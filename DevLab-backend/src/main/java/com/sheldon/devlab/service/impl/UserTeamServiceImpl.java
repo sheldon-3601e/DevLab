@@ -7,7 +7,7 @@ import com.sheldon.devlab.service.UserTeamService;
 import org.springframework.stereotype.Service;
 
 /**
-* @author 26483
+* @author sheldon
 * @description 针对表【user_team(用户队伍关系)】的数据库操作Service实现
 * @createDate 2024-02-20 16:26:45
 */

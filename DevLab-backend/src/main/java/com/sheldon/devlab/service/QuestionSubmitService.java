@@ -10,7 +10,7 @@ import com.sheldon.devlab.model.entity.User;
 import com.sheldon.devlab.model.vo.QuestionSubmitVO;
 
 /**
- * @author 26483
+ * @author sheldon
  * @description 针对表【question_submit(题目提交)】的数据库操作Service
  * @createDate 2024-03-02 15:25:26
  */

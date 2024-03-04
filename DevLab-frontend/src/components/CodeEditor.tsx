@@ -1,25 +1,16 @@
-import React, {useState} from 'react';
-import CodeMirror, {ViewUpdate} from '@uiw/react-codemirror';
-import {javascript} from '@codemirror/lang-javascript';
-import {githubDark} from '@uiw/codemirror-theme-github'
+import { javascript } from '@codemirror/lang-javascript';
+import { githubDark } from '@uiw/codemirror-theme-github';
+import CodeMirror, { ViewUpdate } from '@uiw/react-codemirror';
+import React from 'react';
 
 interface CodeEditorPropsType {
-  value?: string,
-  onChange?: (v: string, viewUpdate: ViewUpdate) => void,
-  lang: string
+  value?: string;
+  onChange?: (v: string, viewUpdate: ViewUpdate) => void;
+  lang: string;
 }
 
-
-
 const CodeEditor: React.FC<CodeEditorPropsType> = (props) => {
-
-  const langType = "javascript" | "java";
-  const [lang, setLang] = useState(props.lang)
-  const langOptions = () => {
-    if (lang === "javascript") {
-      return []
-    }
-  }
+  // TODO 支持切换语言
 
   return (
     <CodeMirror
@@ -27,12 +18,14 @@ const CodeEditor: React.FC<CodeEditorPropsType> = (props) => {
       value={props.value}
       minWidth={'800px'}
       height="200px"
-      extensions={[javascript({jsx: true})]}
+      extensions={[javascript({ jsx: true })]}
       onChange={(value, viewUpdate) => {
-        props.onChange(value, viewUpdate)
+        if (props.onChange) {
+          props.onChange(value, viewUpdate);
+        }
       }}
     />
-  )
-}
+  );
+};
 
 export default CodeEditor;

@@ -34,7 +34,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * @author 26483
+ * @author sheldon
  * @description 针对表【question(题目)】的数据库操作Service实现
  * @createDate 2024-03-02 15:25:26
  */
@@ -164,14 +164,11 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question>
         questionEditVO.setTitle(question.getTitle());
         questionEditVO.setContent(question.getContent());
         questionEditVO.setAnswer(question.getAnswer());
+        questionEditVO.setJudgeCase(question.getJudgeCase());
 
         String tagStr = question.getTags();
         if (StringUtils.isNotBlank(tagStr)) {
             questionEditVO.setTags(JSONUtil.toList(tagStr, String.class));
-        }
-        String judgeCase = question.getJudgeCase();
-        if (StringUtils.isNotBlank(judgeCase)) {
-            questionEditVO.setJudgeCase(JSONUtil.toList(judgeCase, JudgeCase.class));
         }
         String judgeConfig = question.getJudgeConfig();
         if (StringUtils.isNotBlank(judgeConfig)) {

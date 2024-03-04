@@ -2,9 +2,8 @@ import CodeEditor from '@/components/CodeEditor';
 import MargBottom16 from '@/components/margBottom16';
 import MyMdEditor from '@/components/MyMdEditor';
 import {
-  addQuestionUsingPost,
-  getQuestionTagsUsingGet,
-  getQuestionVoByIdUsingGet,
+  addQuestionUsingPost, editQuestionUsingPost,
+  getQuestionTagsUsingGet, getQuestionVoByIdUsingGet,
 } from '@/services/backend/questionController';
 import {
   PageContainer,
@@ -30,7 +29,6 @@ const EditQuestion: React.FC = () => {
   const params = useParams();
 
   const [questionTags, setQuestionTags] = useState<TagsOptionsType[]>([]);
-  const [initData, setInitData] = useState({});
 
   const fetchQuestionTags = async () => {
     const result = await getQuestionTagsUsingGet();
@@ -43,14 +41,14 @@ const EditQuestion: React.FC = () => {
     }
   };
 
+  const [form] = Form.useForm()
   const fetchQuestionData = async () => {
     if (params.id) {
       const result = await getQuestionVoByIdUsingGet({
         id: params.id,
       });
-      console.log(result.data);
       if (result.data) {
-        setInitData(result.data);
+        form.setFieldsValue(result.data)
       }
     } else {
       message.error('页面错误，请你返回');
@@ -69,20 +67,37 @@ const EditQuestion: React.FC = () => {
     // 解析JSON字符串为JavaScript对象数组
     // @ts-ignore
     value.judgeCase = JSON.parse(value.judgeCase);
-    const result = await addQuestionUsingPost({
+    const result = await editQuestionUsingPost({
+      id: params.id,
       ...value,
     });
     if (result.data) {
-      message.success('添加成功');
+      message.success('修改成功');
     }
   };
+  //
+  // const initData = {
+  //   id: '1764331838811181058',
+  //   title: '1111',
+  //   content: '# test',
+  //   tags: ['1', '2'],
+  //   answer: '# test\n# test',
+  //   judgeCase: "[{'input': '111','output': '222',},{'input': '111','output': '222',},]",
+  //   judgeConfig: {
+  //     timeLimit: '111',
+  //     memoryLimit: '222',
+  //     stackLimit: '332',
+  //   },
+  // };
 
   return (
     <PageContainer title={'创建题目'}>
       <ProCard>
         {/* TODO 加载原始数据*/}
-        <ProForm<API.QuestionAddRequest>
+        <ProForm<API.QuestionEditRequest>
           style={{ padding: '10px' }}
+          key={'id'}
+          form={form}
           layout={'vertical'}
           onFinish={async (values) => handleAdd(values)}
           autoFocusFirstInput

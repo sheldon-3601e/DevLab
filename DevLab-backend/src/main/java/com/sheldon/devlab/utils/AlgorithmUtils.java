@@ -4,7 +4,7 @@ import java.util.List;
 
 /**
  * @ClassName AlgorithmUtils
- * @Author 26483
+ * @Author sheldon
  * @Date 2024/2/26 16:37
  * @Version 1.0
  * @Description 算法的相关工具类

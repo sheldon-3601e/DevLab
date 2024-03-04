@@ -33,7 +33,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * @author 26483
+ * @author sheldon
  * @description 针对表【team(队伍)】的数据库操作Service实现
  * @createDate 2024-02-20 16:26:45
  */

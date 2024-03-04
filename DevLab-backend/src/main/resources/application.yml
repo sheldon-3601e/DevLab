@@ -71,3 +71,7 @@ knife4j:
         api-rule: package
         api-rule-resources:
           - com.sheldon.devlab.controller
+# 代码沙箱配置
+codesandbox:
+  type: example
+
