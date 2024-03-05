@@ -4,7 +4,7 @@ import com.sheldon.devlab.Judge.strategy.DefaultJudgeStrategy;
 import com.sheldon.devlab.Judge.strategy.JavaLangugeJudgeStrategy;
 import com.sheldon.devlab.Judge.strategy.JudgeContext;
 import com.sheldon.devlab.Judge.strategy.JudgeStrategy;
-import com.sheldon.devlab.model.dto.question.JudgeInfo;
+import com.sheldon.devlab.Judge.codesandbox.model.JudgeInfo;
 import com.sheldon.devlab.model.entity.QuestionSubmit;
 import com.sheldon.devlab.model.enums.QuestionSubmitLanguageEnum;
 import org.springframework.stereotype.Service;
@@ -29,7 +29,4 @@ public class JudgeManager {
         }
         return judgeStrategy.doJudge(judgeContext);
     }
-
-
-
 }

@@ -6,13 +6,11 @@ import com.sheldon.devlab.Judge.codesandbox.CodeSandboxFactory;
 import com.sheldon.devlab.Judge.codesandbox.CodeSandboxProxy;
 import com.sheldon.devlab.Judge.codesandbox.model.ExecuteCodeRequest;
 import com.sheldon.devlab.Judge.codesandbox.model.ExecuteCodeResponse;
-import com.sheldon.devlab.Judge.strategy.DefaultJudgeStrategy;
 import com.sheldon.devlab.Judge.strategy.JudgeContext;
-import com.sheldon.devlab.Judge.strategy.JudgeStrategy;
 import com.sheldon.devlab.common.ErrorCode;
 import com.sheldon.devlab.exception.BusinessException;
 import com.sheldon.devlab.model.dto.question.JudgeCase;
-import com.sheldon.devlab.model.dto.question.JudgeInfo;
+import com.sheldon.devlab.Judge.codesandbox.model.JudgeInfo;
 import com.sheldon.devlab.model.dto.questionSubmit.JudgeConfig;
 import com.sheldon.devlab.model.entity.Question;
 import com.sheldon.devlab.model.entity.QuestionSubmit;
@@ -79,6 +77,7 @@ public class JudgeServiceImpl implements JudgeService {
         // 4）调用沙箱，获取到执行结果
         CodeSandbox codeSandbox = CodeSandboxFactory.newInstance(type);
         CodeSandboxProxy codeSandboxProxy = new CodeSandboxProxy(codeSandbox);
+
         String language = questionSubmit.getLanguage();
         String code = questionSubmit.getCode();
         String judgeCaseStr = question.getJudgeCase();

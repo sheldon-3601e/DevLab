@@ -3,7 +3,7 @@ package com.sheldon.devlab.Judge.codesandbox.impl;
 import com.sheldon.devlab.Judge.codesandbox.CodeSandbox;
 import com.sheldon.devlab.Judge.codesandbox.model.ExecuteCodeRequest;
 import com.sheldon.devlab.Judge.codesandbox.model.ExecuteCodeResponse;
-import com.sheldon.devlab.model.dto.question.JudgeInfo;
+import com.sheldon.devlab.Judge.codesandbox.model.JudgeInfo;
 import com.sheldon.devlab.model.enums.JudgeInfoMessageEnum;
 import com.sheldon.devlab.model.enums.QuestionSubmitStatusEnum;
 

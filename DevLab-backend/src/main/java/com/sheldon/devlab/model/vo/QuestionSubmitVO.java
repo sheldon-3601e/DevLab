@@ -1,7 +1,7 @@
 package com.sheldon.devlab.model.vo;
 
 import cn.hutool.json.JSONUtil;
-import com.sheldon.devlab.model.dto.question.JudgeInfo;
+import com.sheldon.devlab.Judge.codesandbox.model.JudgeInfo;
 import com.sheldon.devlab.model.entity.QuestionSubmit;
 import lombok.Data;
 import org.springframework.beans.BeanUtils;

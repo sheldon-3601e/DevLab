@@ -1,6 +1,6 @@
 package com.sheldon.devlab.Judge.strategy;
 
-import com.sheldon.devlab.model.dto.question.JudgeInfo;
+import com.sheldon.devlab.Judge.codesandbox.model.JudgeInfo;
 import com.sheldon.devlab.model.dto.questionSubmit.JudgeConfig;
 import com.sheldon.devlab.model.entity.QuestionSubmit;
 import lombok.Data;

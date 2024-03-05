@@ -1,4 +1,4 @@
-package com.sheldon.devlab.Judge.codesandbox.model;
+package com.sheldon.devlabcodesanbox.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

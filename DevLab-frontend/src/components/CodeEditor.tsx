@@ -1,9 +1,8 @@
 import { java } from '@codemirror/lang-java';
-import {javascript, tsxLanguage} from '@codemirror/lang-javascript';
+import { javascript } from '@codemirror/lang-javascript';
 import { githubDark } from '@uiw/codemirror-theme-github';
 import CodeMirror, { Compartment, ViewUpdate } from '@uiw/react-codemirror';
-import React, {useEffect, useState} from 'react';
-import {jsx} from "@emotion/react";
+import React, { useEffect, useState } from 'react';
 
 interface CodeEditorPropsType {
   value?: string;
@@ -12,21 +11,20 @@ interface CodeEditorPropsType {
 }
 
 const CodeEditor: React.FC<CodeEditorPropsType> = (props) => {
-  // TODO 支持切换语言
-
+  // 支持切换语言
   const languageConf = new Compartment();
 
-  const [extensions, setExtensions] = useState([languageConf.of(java())])
+  const [extensions, setExtensions] = useState([languageConf.of(java())]);
   const getExtensions = () => {
     switch (props.lang) {
       case 'javascript':
-        return [languageConf.of(javascript({jsx: true, typescript: true}))];
+        return [languageConf.of(javascript({ jsx: true, typescript: true }))];
       case 'java':
         return [languageConf.of(java())];
       default:
         return [];
     }
-  }
+  };
   useEffect(() => {
     setExtensions(getExtensions());
   }, [props.lang]);
