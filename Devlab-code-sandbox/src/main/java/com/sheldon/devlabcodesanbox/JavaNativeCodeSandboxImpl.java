@@ -57,7 +57,6 @@ public class JavaNativeCodeSandboxImpl implements CodeSandbox {
     @Override
     public ExecuteCodeResponse executeCode(ExecuteCodeRequest executeCodeRequest) {
 
-
         List<String> inputList = executeCodeRequest.getInputList();
         String language = executeCodeRequest.getLanguage();
         String code = executeCodeRequest.getCode();
@@ -115,8 +114,7 @@ public class JavaNativeCodeSandboxImpl implements CodeSandbox {
             }
         }
 
-
-        // 收集整理输出结果
+        // 4.收集整理输出结果
         ExecuteCodeResponse executeCodeResponse = new ExecuteCodeResponse();
         executeCodeResponse.setStatus(1);
         List<String> outputList = new ArrayList<>();
