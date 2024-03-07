@@ -13,6 +13,7 @@ import com.sheldon.devlab.model.vo.QuestionSubmitVO;
 import com.sheldon.devlab.service.QuestionSubmitService;
 import com.sheldon.devlab.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Description;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +30,7 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping("/question_submit")
 @Slf4j
+@Deprecated
 public class QuestionSubmitController {
 
     @Resource

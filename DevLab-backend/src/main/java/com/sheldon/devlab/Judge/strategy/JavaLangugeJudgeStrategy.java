@@ -4,7 +4,9 @@ import com.sheldon.devlab.Judge.codesandbox.model.JudgeInfo;
 import com.sheldon.devlab.model.dto.questionSubmit.JudgeConfig;
 import com.sheldon.devlab.model.enums.JudgeInfoMessageEnum;
 
+import javax.swing.text.html.Option;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @ClassName DefaultJudgeStrategy
@@ -24,8 +26,8 @@ public class JavaLangugeJudgeStrategy implements JudgeStrategy {
         long timeLimit = judgeConfig.getTimeLimit();
         long memoryLimit = judgeConfig.getMemoryLimit();
 
-        Long memory = judgeInfo.getMemory();
-        long time = judgeInfo.getTime();
+        Long memory = Optional.ofNullable(judgeInfo.getMemory()).orElse(0L);
+        long time = Optional.ofNullable(judgeInfo.getTime()).orElse(0L);
 
         JudgeInfoMessageEnum judgeInfoMessageEnum = JudgeInfoMessageEnum.Accepted;
         JudgeInfo judgeInfoResponse = new JudgeInfo();

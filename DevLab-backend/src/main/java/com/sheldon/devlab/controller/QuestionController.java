@@ -11,12 +11,17 @@ import com.sheldon.devlab.constant.UserConstant;
 import com.sheldon.devlab.exception.BusinessException;
 import com.sheldon.devlab.exception.ThrowUtils;
 import com.sheldon.devlab.model.dto.questionSubmit.JudgeConfig;
+import com.sheldon.devlab.model.dto.questionSubmit.QuestionSubmitAddRequest;
+import com.sheldon.devlab.model.dto.questionSubmit.QuestionSubmitQueryRequest;
 import com.sheldon.devlab.model.entity.Question;
+import com.sheldon.devlab.model.entity.QuestionSubmit;
 import com.sheldon.devlab.model.entity.QuestionTags;
 import com.sheldon.devlab.model.entity.User;
 import com.sheldon.devlab.model.vo.QuestionEditVO;
+import com.sheldon.devlab.model.vo.QuestionSubmitVO;
 import com.sheldon.devlab.model.vo.QuestionVO;
 import com.sheldon.devlab.service.QuestionService;
+import com.sheldon.devlab.service.QuestionSubmitService;
 import com.sheldon.devlab.service.QuestionTagsService;
 import com.sheldon.devlab.service.UserService;
 import com.sheldon.devlab.model.dto.question.*;
@@ -46,6 +51,9 @@ public class QuestionController {
 
     @Resource
     private QuestionTagsService questionTagsService;
+
+    @Resource
+    private QuestionSubmitService questionSubmitService;
 
     // region 增删改查
 
@@ -286,6 +294,36 @@ public class QuestionController {
         userService.getLoginUser(request);
         List<QuestionTags> questionTags = questionTagsService.list();
         return ResultUtils.success(questionTags);
+    }
+
+    @PostMapping("/submit")
+    public BaseResponse<Long> doQuestionSubmit(@RequestBody QuestionSubmitAddRequest questionSubmitAddRequest,
+                                               HttpServletRequest request) {
+        if (questionSubmitAddRequest == null || questionSubmitAddRequest.getQuestionId() <= 0) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        // 登录才能点赞
+        final User loginUser = userService.getLoginUser(request);
+        Long result = questionSubmitService.doQuestionSubmit(questionSubmitAddRequest, loginUser);
+        return ResultUtils.success(result);
+    }
+
+    /**
+     * 分页题目提交获取列表
+     *
+     * @param questionSubmitQueryRequest
+     * @return
+     */
+    @PostMapping("/submit/list/page")
+    public BaseResponse<Page<QuestionSubmitVO>> listQuestionSubmitByPage(@RequestBody QuestionSubmitQueryRequest questionSubmitQueryRequest, HttpServletRequest request) {
+        long current = questionSubmitQueryRequest.getCurrent();
+        long size = questionSubmitQueryRequest.getPageSize();
+        // 从数据库中查询原始的题目提交分页信息
+        Page<QuestionSubmit> questionSubmitPage = questionSubmitService.page(new Page<>(current, size),
+                questionSubmitService.getQueryWrapper(questionSubmitQueryRequest));
+        final User loginUser = userService.getLoginUser(request);
+        // 返回脱敏信息
+        return ResultUtils.success(questionSubmitService.getQuestionSubmitVOPage(questionSubmitPage, loginUser));
     }
 
 
