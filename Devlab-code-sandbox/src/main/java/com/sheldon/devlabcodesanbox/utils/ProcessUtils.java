@@ -5,6 +5,8 @@ import com.sheldon.devlabcodesanbox.model.ExecuteMessage;
 import org.springframework.util.StopWatch;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author sheldon
@@ -38,12 +40,12 @@ public class ProcessUtils {
                 // 分批获取控制台的正常输出
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(runProcess.getInputStream()));
                 // 逐行读取
-                StringBuilder compileOutputStringBuilder = new StringBuilder();
+                List<String> compileOutputList = new ArrayList<>();
                 String compileOutputLine;
                 while ((compileOutputLine = bufferedReader.readLine()) != null) {
-                    compileOutputStringBuilder.append(compileOutputLine).append("\n");
+                    compileOutputList.add(compileOutputLine);
                 }
-                executeMessage.setMessage(compileOutputStringBuilder.toString());
+                executeMessage.setMessage(StrUtil.join("\n", compileOutputList));
 
             } else {
                 // 异常退出
@@ -51,22 +53,22 @@ public class ProcessUtils {
                 // 分批获取控制台的正常输出
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(runProcess.getInputStream()));
                 // 逐行读取
-                StringBuilder compileOutputStringBuilder = new StringBuilder();
+                List<String> compileOutputList = new ArrayList<>();
                 String compileOutputLine;
                 while ((compileOutputLine = bufferedReader.readLine()) != null) {
-                    compileOutputStringBuilder.append(compileOutputLine).append("\n");
+                    compileOutputList.add(compileOutputLine);
                 }
-                executeMessage.setMessage(compileOutputStringBuilder.toString());
+                executeMessage.setMessage(StrUtil.join("\n", compileOutputList));
 
                 // 分批获取控制台的正常输出
                 BufferedReader errorBufferedReader = new BufferedReader(new InputStreamReader(runProcess.getErrorStream()));
                 // 逐行读取
-                StringBuilder errorCompileOutputStringBuilder = new StringBuilder();
+                List<String> errorCompileOutputList = new ArrayList<>();
                 String errorCompileOutputLine;
                 while ((errorCompileOutputLine = errorBufferedReader.readLine()) != null) {
-                    errorCompileOutputStringBuilder.append(errorCompileOutputLine).append("\n");
+                    errorCompileOutputList.add(errorCompileOutputLine);
                 }
-                executeMessage.setErrorMessage(errorCompileOutputStringBuilder.toString());
+                executeMessage.setErrorMessage(StrUtil.join("\n", errorCompileOutputList));
             }
             stopWatch.stop();
             // 封装执行时间
