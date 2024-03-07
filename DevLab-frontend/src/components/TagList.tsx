@@ -1,5 +1,5 @@
 import React from "react";
-import useStyles from "@/pages/Match/Person/Center.style";
+import useStyles from "@/pages/Account/Center/Center.style";
 import {Tag} from "antd";
 
 const TagList: React.FC<{

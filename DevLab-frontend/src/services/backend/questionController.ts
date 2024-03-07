@@ -130,6 +130,36 @@ export async function listMyQuestionVoByPageUsingPost(
   });
 }
 
+/** doQuestionSubmit POST /api/question/submit */
+export async function doQuestionSubmitUsingPost(
+  body: API.QuestionSubmitAddRequest,
+  options?: { [key: string]: any },
+) {
+  return request<API.BaseResponseLong_>('/api/question/submit', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
+/** listQuestionSubmitByPage POST /api/question/submit/list/page */
+export async function listQuestionSubmitByPageUsingPost(
+  body: API.QuestionSubmitQueryRequest,
+  options?: { [key: string]: any },
+) {
+  return request<API.BaseResponsePageQuestionSubmitVO_>('/api/question/submit/list/page', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
 /** updateQuestion POST /api/question/update */
 export async function updateQuestionUsingPost(
   body: API.QuestionUpdateRequest,

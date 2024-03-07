@@ -1,14 +1,11 @@
 import CodeEditor from '@/components/CodeEditor';
 import MargBottom16 from '@/components/margBottom16';
-import TagList from '@/components/TagList';
-import { getQuestionVoByIdUsingGet } from '@/services/backend/questionController';
-import { doQuestionSubmitUsingPost } from '@/services/backend/questionSubmitController';
-import { PageContainer, ProCard } from '@ant-design/pro-components';
+import {doQuestionSubmitUsingPost, getQuestionVoByIdUsingGet} from '@/services/backend/questionController';
+import {PageContainer, ProCard} from '@ant-design/pro-components';
 import '@umijs/max';
 import {Button, Col, Divider, message, Row, Select, Statistic, Tabs} from 'antd';
-import React, { useEffect, useState } from 'react';
-import ReactMarkdown from 'react-markdown';
-import { useParams } from 'react-router';
+import React, {useEffect, useState} from 'react';
+import {useParams} from 'react-router';
 import MdView from "@/components/MdView";
 
 /**

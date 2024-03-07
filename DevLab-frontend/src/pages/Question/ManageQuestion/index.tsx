@@ -1,24 +1,50 @@
 import TagList from '@/components/TagList';
 import {
   deleteQuestionUsingPost,
-  listQuestionVoByPageUsingPost,
+  listMyQuestionVoByPageUsingPost,
 } from '@/services/backend/questionController';
-import {PlusOutlined} from '@ant-design/icons';
-import type {ActionType, ProColumns} from '@ant-design/pro-components';
-import {PageContainer, ProTable} from '@ant-design/pro-components';
+import { PlusOutlined } from '@ant-design/icons';
+import type { ActionType, ProColumns } from '@ant-design/pro-components';
+import { PageContainer, ProTable } from '@ant-design/pro-components';
 import '@umijs/max';
-import {Button, message, Space, Tag} from 'antd';
-import React, {useRef} from 'react';
-import {useNavigate} from 'react-router-dom';
+import { Button, message, Popconfirm, Space, Tag } from 'antd';
+import React, { useRef } from 'react';
+import {  useNavigate } from 'react-router-dom';
 
 /**
- * 用户管理页面
+ * 管理题目页面
  *
  * @constructor
  */
-const ListQuestion: React.FC = () => {
+const ManageQuestion: React.FC = () => {
+
   const actionRef = useRef<ActionType>();
   const navigate = useNavigate();
+
+  /**
+   * 删除题目
+   * @param row
+   */
+  const handleDelete = async (row: API.QuestionVO) => {
+    console.log(row);
+    const hide = message.loading('正在删除');
+    if (!row) return true;
+    try {
+      const res = await deleteQuestionUsingPost({
+        id: row.id as any,
+      });
+      if (res.data) {
+        hide();
+        message.success('删除成功');
+        actionRef.current?.reload();
+        return true;
+      }
+    } catch (error: any) {
+      hide();
+      message.error('删除失败，' + error.message);
+      return false;
+    }
+  };
 
   /**
    * 表格列配置
@@ -26,10 +52,8 @@ const ListQuestion: React.FC = () => {
   const columns: ProColumns<API.QuestionVO>[] = [
     {
       title: 'id',
-      dataIndex: 'title',
+      dataIndex: 'id',
       valueType: 'text',
-      hideInTable: true,
-      hideInSearch: true,
     },
     {
       title: '题目名称',
@@ -38,9 +62,9 @@ const ListQuestion: React.FC = () => {
     },
     {
       title: '标签',
-      dataIndex: 'tags',
-      hideInSearch: true,
-      render: (_, record) => <TagList tags={record.tags ?? []}/>,
+      dataIndex: 'option',
+      valueType: 'option',
+      render: (_, record) => <TagList tags={record.tags ?? []} />,
     },
     {
       title: '提交数',
@@ -89,11 +113,21 @@ const ListQuestion: React.FC = () => {
           <Button
             type={'dashed'}
             onClick={() => {
-              navigate(`/question/view/${record.id}`);
+              navigate(`/question/edit/${record.id}`);
             }}
           >
-            详情
+            修改
           </Button>
+          <Popconfirm
+            placement="left"
+            title={'确认'}
+            description={'你确认要删除该题目？'}
+            okText="Yes"
+            cancelText="No"
+            onConfirm={() => handleDelete(record)}
+          >
+            <Button danger={true}>删除</Button>
+          </Popconfirm>
         </Space>
       ),
     },
@@ -105,6 +139,9 @@ const ListQuestion: React.FC = () => {
         key={'id'}
         actionRef={actionRef}
         rowKey="id"
+        search={{
+          labelWidth: 120,
+        }}
         toolBarRender={() => [
           <Button
             type="primary"
@@ -113,14 +150,14 @@ const ListQuestion: React.FC = () => {
               navigate('/question/add');
             }}
           >
-            <PlusOutlined/> 新建
+            <PlusOutlined /> 新建
           </Button>,
         ]}
         request={async (params, sort, filter) => {
           const sortField = Object.keys(sort)?.[0];
           const sortOrder = sort?.[sortField] ?? undefined;
 
-          const {data, code} = await listQuestionVoByPageUsingPost({
+          const { data, code } = await listMyQuestionVoByPageUsingPost({
             ...params,
             sortField,
             sortOrder,
@@ -138,4 +175,4 @@ const ListQuestion: React.FC = () => {
     </PageContainer>
   );
 };
-export default ListQuestion;
+export default ManageQuestion;
