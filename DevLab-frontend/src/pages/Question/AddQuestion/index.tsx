@@ -23,17 +23,14 @@ interface TagsOptionsType {
   value: string;
 }
 
+const initJudgeCase =
+  '[\n' + '  {\n' + '    "input":"input",\n' + '    "output":"output"\n' + '  }\n' + ']';
+
 const AddQuestion: React.FC = () => {
   const navigate = useNavigate();
 
   const [questionTags, setQuestionTags] = useState<TagsOptionsType[]>([]);
 
-  // TODO 获取题目可以添加的标签
-  // const questionTags = [
-  //   {label: '选项1', value: 1},
-  //   {label: '选项2', value: 2},
-  //   {label: '选项3', value: 3},
-  // ]
   const fetchQuestionTags = async () => {
     const result = await getQuestionTagsUsingGet();
     if (result.data) {
@@ -60,7 +57,7 @@ const AddQuestion: React.FC = () => {
     });
     if (result.data) {
       message.success('添加成功');
-      navigate("/question/manage")
+      navigate('/question/manage');
     }
   };
 
@@ -112,11 +109,14 @@ const AddQuestion: React.FC = () => {
             />
           </ProForm.Group>
           <MargBottom16 />
-          <ProForm.Group title={'判题实例'} style={{ width: '200px' }}>
-            <Form.Item label={'判题实例'} name={'judgeCase'}>
-              <CodeEditor lang={'java'} />
-            </Form.Item>
-          </ProForm.Group>
+          <Form.Item
+            label={'判题实例 - （ json格式 ）'}
+            name={'judgeCase'}
+            tooltip={'同一次输入的多个实例用空格间隔'}
+            initialValue={initJudgeCase}
+          >
+            <CodeEditor lang={'json'} />
+          </Form.Item>
           <MargBottom16 />
         </ProForm>
       </ProCard>

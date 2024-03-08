@@ -38,21 +38,7 @@ const ListQuestion: React.FC = () => {
       render: (_, record) => <TagList tags={record.tags ?? []}/>,
     },
     {
-      title: '提交数',
-      dataIndex: 'submitNum',
-      valueType: 'text',
-      sorter: true,
-      hideInSearch: true,
-    },
-    {
-      title: '通过数',
-      dataIndex: 'acceptedNum',
-      valueType: 'textarea',
-      sorter: true,
-      hideInSearch: true,
-    },
-    {
-      title: '通过率',
+      title: '通过率（(AC/submit)）',
       dataIndex: 'option',
       valueType: 'option',
       render: (_, record) => (
@@ -100,21 +86,12 @@ const ListQuestion: React.FC = () => {
         key={'id'}
         actionRef={actionRef}
         rowKey="id"
-        toolBarRender={() => [
-          <Button
-            type="primary"
-            key="primary"
-            onClick={() => {
-              navigate('/question/add');
-            }}
-          >
-            <PlusOutlined/> 新建
-          </Button>,
-        ]}
+        pagination={{
+          pageSize: 10
+        }}
         request={async (params, sort, filter) => {
           const sortField = Object.keys(sort)?.[0];
           const sortOrder = sort?.[sortField] ?? undefined;
-
           const {data, code} = await listQuestionVoByPageUsingPost({
             ...params,
             sortField,

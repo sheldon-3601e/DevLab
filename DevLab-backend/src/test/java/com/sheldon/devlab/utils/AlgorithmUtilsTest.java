@@ -25,4 +25,8 @@ class AlgorithmUtilsTest {
         System.out.println(i01);
         System.out.println(i02);
     }
+
+    public void test() {
+        System.out.println("test");
+    }
 }

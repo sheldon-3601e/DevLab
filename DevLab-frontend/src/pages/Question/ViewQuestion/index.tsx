@@ -1,12 +1,16 @@
 import CodeEditor from '@/components/CodeEditor';
 import MargBottom16 from '@/components/margBottom16';
-import {doQuestionSubmitUsingPost, getQuestionVoByIdUsingGet} from '@/services/backend/questionController';
-import {PageContainer, ProCard} from '@ant-design/pro-components';
+import MdView from '@/components/MdView';
+import {
+  doQuestionSubmitUsingPost,
+  getQuestionVoByIdUsingGet,
+} from '@/services/backend/questionController';
+import { PageContainer, ProCard } from '@ant-design/pro-components';
 import '@umijs/max';
-import {Button, Col, Divider, message, Row, Select, Statistic, Tabs} from 'antd';
-import React, {useEffect, useState} from 'react';
-import {useParams} from 'react-router';
-import MdView from "@/components/MdView";
+import { Button, Col, Divider, message, Row, Select, Statistic, Tabs } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 
 /**
  * 题目详情页面
@@ -18,7 +22,9 @@ const ViewQuestion: React.FC = () => {
   const [initData, setInitData] = useState<API.QuestionVO>();
   const [code, setCode] = useState('');
   const [language, setLanguage] = useState('java');
-  const [tabKey, setTabKey] = useState("question")
+  const [tabKey, setTabKey] = useState('question');
+
+  const navigate = useNavigate();
 
   const fetchQuestionData = async () => {
     const res = await getQuestionVoByIdUsingGet({
@@ -38,12 +44,10 @@ const ViewQuestion: React.FC = () => {
     });
     if (res.data) {
       message.success('提交成功');
+      navigate('/question/submit/list');
     }
   };
 
-  {
-    /* TODO 远程获取编程语言 */
-  }
   const options = [
     { value: 'java', label: 'java' },
     { value: 'javascript', label: 'javascript' },
@@ -56,13 +60,13 @@ const ViewQuestion: React.FC = () => {
   const items = [
     {
       label: '题目',
-      key: 'question'
+      key: 'question',
     },
     {
       label: '答案',
-      key: 'answer'
+      key: 'answer',
     },
-  ]
+  ];
 
   const tagContent = () => {
     if (tabKey === 'question') {
@@ -89,13 +93,12 @@ const ViewQuestion: React.FC = () => {
     } else if (tabKey === 'answer') {
       return (
         // 根据需要返回答案内容
-        <div>这里是答案内容</div>
+        <MdView value={initData?.answer} />
       );
     } else {
       return null; // 其他情况返回空，不渲染任何内容
     }
   };
-
 
   return (
     <div id={'view-question'}>
@@ -108,10 +111,9 @@ const ViewQuestion: React.FC = () => {
                 type="card"
                 size={'large'}
                 items={items}
-                onTabClick={(key) =>{
-                  setTabKey(key)
-                }
-                }
+                onTabClick={(key) => {
+                  setTabKey(key);
+                }}
               />
               {tagContent()}
             </Col>

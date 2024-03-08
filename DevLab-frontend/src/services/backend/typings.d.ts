@@ -350,6 +350,7 @@ declare namespace API {
 
   type QuestionVO = {
     acceptedNum?: number;
+    answer?: string;
     content?: string;
     createTime?: string;
     favourNum?: number;

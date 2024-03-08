@@ -1,8 +1,10 @@
 import { java } from '@codemirror/lang-java';
 import { javascript } from '@codemirror/lang-javascript';
+import { json } from '@codemirror/lang-json';
 import { githubDark } from '@uiw/codemirror-theme-github';
 import CodeMirror, { Compartment, ViewUpdate } from '@uiw/react-codemirror';
 import React, { useEffect, useState } from 'react';
+import {languages} from "monaco-editor";
 
 interface CodeEditorPropsType {
   value?: string;
@@ -21,6 +23,8 @@ const CodeEditor: React.FC<CodeEditorPropsType> = (props) => {
         return [languageConf.of(javascript({ jsx: true, typescript: true }))];
       case 'java':
         return [languageConf.of(java())];
+      case "json":
+          return [languageConf.of(json())];
       default:
         return [];
     }

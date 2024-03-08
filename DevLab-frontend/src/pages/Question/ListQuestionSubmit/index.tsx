@@ -99,8 +99,8 @@ const ListQuestionSubmit: React.FC = () => {
           pageSize: 10,
         }}
         request={async (params, sort, filter) => {
-          const sortField = Object.keys(sort)?.[0];
-          const sortOrder = sort?.[sortField] ?? undefined;
+          const sortField = Object.keys(sort)?.[0] ?? 'createTime';
+          const sortOrder = sort?.[sortField] ?? 'descend';
 
           const { data, code } = await listQuestionSubmitByPageUsingPost({
             ...params,

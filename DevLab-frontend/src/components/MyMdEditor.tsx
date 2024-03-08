@@ -22,7 +22,6 @@ const MyMdEditor: React.FC<EditorProps> = (props) => {
     h2: true, // h2
     h3: true, // h3
     h4: true, // h4
-    img: true, // 图片
     link: true, // 链接
     code: true, // 代码块
     preview: true, // 预览

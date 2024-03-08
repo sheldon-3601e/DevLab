@@ -26,10 +26,6 @@ export default [
     access: 'canLogin',
     routes: [
       {
-        path: '/match/team',
-        redirect: '/match/team/show',
-      },
-      {
         path: '/match/team/show',
         component: './Match/Team',
         name: '队伍列表',
@@ -70,6 +66,20 @@ export default [
         icon: 'smile',
         component: './Question/AddQuestion',
         name: '创建题目',
+      },
+      {
+        path: '/question/edit/:id',
+        icon: 'smile',
+        component: './Question/EditQuestion',
+        name: '更新题目',
+        hideInMenu: true,
+      },
+      {
+        path: '/question/view/:id',
+        icon: 'smile',
+        component: './Question/ViewQuestion',
+        name: '题目详情',
+        hideInMenu: true,
       },
     ],
   },
