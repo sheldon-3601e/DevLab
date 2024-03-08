@@ -1,5 +1,6 @@
 package com.sheldon.devlab.config;
 
+import io.swagger.models.auth.In;
 import lombok.Data;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
@@ -26,6 +27,8 @@ public class RedissonConfig {
 
     private String password;
 
+    private Integer database;
+
     @Bean
     public RedissonClient redissonClient() {
         // 1. Create config object
@@ -34,7 +37,7 @@ public class RedissonConfig {
         config.useSingleServer()
                 .setAddress(url)
                 .setPassword(password)
-                .setDatabase(4);
+                .setDatabase(database);
         // 2. Create Redisson instance
 
         // Sync and Async API

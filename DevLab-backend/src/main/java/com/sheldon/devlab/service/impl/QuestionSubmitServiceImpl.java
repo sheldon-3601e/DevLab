@@ -1,12 +1,13 @@
 package com.sheldon.devlab.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.sheldon.devlab.Judge.JudgeService;
-import com.sheldon.devlab.Judge.strategy.JudgeStrategy;
 import com.sheldon.devlab.common.ErrorCode;
 import com.sheldon.devlab.constant.CommonConstant;
+import com.sheldon.devlab.constant.QuestionConstant;
 import com.sheldon.devlab.exception.BusinessException;
 import com.sheldon.devlab.mapper.QuestionSubmitMapper;
 import com.sheldon.devlab.model.dto.questionSubmit.QuestionSubmitAddRequest;
@@ -21,15 +22,19 @@ import com.sheldon.devlab.service.QuestionService;
 import com.sheldon.devlab.service.QuestionSubmitService;
 import com.sheldon.devlab.service.UserService;
 import com.sheldon.devlab.utils.SqlUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -38,6 +43,7 @@ import java.util.stream.Collectors;
  * @createDate 2024-03-02 15:25:26
  */
 @Service
+@Slf4j
 public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper, QuestionSubmit>
         implements QuestionSubmitService {
 
@@ -51,13 +57,16 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
     @Lazy
     private JudgeService judgeService;
 
+    @Resource
+    private RedissonClient redissonClient;
+
     @Override
     public Long doQuestionSubmit(QuestionSubmitAddRequest questionSubmitAddRequest, User loginUser) {
-        // 判断题目是否存在
         Long questionId = questionSubmitAddRequest.getQuestionId();
         String code = questionSubmitAddRequest.getCode();
         String language = questionSubmitAddRequest.getLanguage();
 
+        // 判断题目是否存在
         Question question = questionService.getById(questionId);
         if (question == null) {
             throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
@@ -67,24 +76,64 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
         if (languageEnum == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "编程语言错误");
         }
-        // 每个用户串行提交
-        QuestionSubmit questionSubmit = new QuestionSubmit();
-        questionSubmit.setLanguage(language);
-        questionSubmit.setCode(code);
-        questionSubmit.setJudgeInfo("{}");
-        questionSubmit.setStatus(QuestionSubmitStatusEnum.WAITING.getValue());
-        questionSubmit.setQuestionId(questionId);
-        questionSubmit.setUserId(loginUser.getId());
-
-        // TODO 限流，防止用户提交过快
-        boolean save = this.save(questionSubmit);
-        if (!save) {
-            throw new BusinessException(ErrorCode.SYSTEM_ERROR, "数据插入失败");
+        // 验证代码是否为空
+        if (StrUtil.isBlank(code)) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR, "代码不能为空");
         }
-        // TODO 调用代码沙箱
-        Long questionSubmitId = questionSubmit.getId();
-        CompletableFuture.runAsync(() -> judgeService.doJudge(questionSubmitId));
-        return questionSubmitId;
+
+        // 获取锁
+        // 限流，防止用户提交过快
+        RLock lock = redissonClient.getLock(QuestionConstant.QUESTION_SUBMIT_LIMIT_NAME + loginUser.getId());
+        // 获取锁 参数：获取锁的最大等待时间(期间会重试)，锁自动释放时间，时间单位
+        boolean isLock = false;
+        try {
+            isLock = lock.tryLock(1, 10, TimeUnit.SECONDS);
+            // 每个用户串行提交
+            QuestionSubmit questionSubmit = new QuestionSubmit();
+            questionSubmit.setLanguage(language);
+            questionSubmit.setCode(code);
+            questionSubmit.setJudgeInfo("{}");
+            questionSubmit.setStatus(QuestionSubmitStatusEnum.WAITING.getValue());
+            questionSubmit.setQuestionId(questionId);
+            questionSubmit.setUserId(loginUser.getId());
+
+            if (isLock) {
+                log.info("My Log: user submit question get lock successfully");
+
+                // 验证用户同时提交的题目数量
+                QueryWrapper<QuestionSubmit> queryWrapper = new QueryWrapper<>();
+                queryWrapper.eq("userId", loginUser.getId());
+                queryWrapper.eq("questionId", questionId);
+                queryWrapper.in("status", QuestionSubmitStatusEnum.WAITING.getValue(), QuestionSubmitStatusEnum.JUDGING.getValue());
+                long questionSubmitNum = this.count(queryWrapper);
+                if (questionSubmitNum >= QuestionConstant.QUESTION_SUBMIT_LIMIT) {
+                    throw new BusinessException(ErrorCode.FORBID_SUBMIT, "同时提交的题目数量超过限制");
+                }
+
+                boolean save = this.save(questionSubmit);
+                if (!save) {
+                    throw new BusinessException(ErrorCode.SYSTEM_ERROR, "问题提交失败");
+                }
+                // 调用代码沙箱
+                Long questionSubmitId = questionSubmit.getId();
+                CompletableFuture.runAsync(() -> judgeService.doJudge(questionSubmitId));
+
+                // 释放锁
+                lock.unlock();
+                return questionSubmitId;
+
+            } else {
+                questionSubmit.setStatus(QuestionSubmitStatusEnum.FAILED.getValue());
+                boolean save = this.save(questionSubmit);
+                if (!save) {
+                    throw new BusinessException(ErrorCode.SYSTEM_ERROR, "问题提交失败");
+                }
+                throw new BusinessException(ErrorCode.FORBIDDEN_ERROR, "提交过于频繁");
+            }
+
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**

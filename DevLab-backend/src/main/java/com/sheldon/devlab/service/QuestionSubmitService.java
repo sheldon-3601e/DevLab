@@ -17,7 +17,7 @@ import com.sheldon.devlab.model.vo.QuestionSubmitVO;
 public interface QuestionSubmitService extends IService<QuestionSubmit> {
 
     /**
-     * 点赞
+     * 提交题目
      *
      * @param questionSubmitAddRequest
      * @param loginUser

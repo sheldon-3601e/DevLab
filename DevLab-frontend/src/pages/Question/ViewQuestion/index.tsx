@@ -37,6 +37,9 @@ const ViewQuestion: React.FC = () => {
   };
 
   const handleSubmit = async () => {
+    console.log(params.id)
+    console.log(code)
+    console.log(language)
     const res = await doQuestionSubmitUsingPost({
       questionId: params.id,
       code,
@@ -56,6 +59,10 @@ const ViewQuestion: React.FC = () => {
   useEffect(() => {
     fetchQuestionData();
   }, []);
+
+  useEffect(() => {
+    console.log(code)
+  }, [code]);
 
   const items = [
     {

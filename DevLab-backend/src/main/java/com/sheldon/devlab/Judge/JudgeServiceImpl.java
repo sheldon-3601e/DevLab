@@ -68,7 +68,7 @@ public class JudgeServiceImpl implements JudgeService {
         // 3）更改判题（题目提交）的状态为 “判题中”，防止重复执行，也能让用户即时看到状态
         QuestionSubmit questionSubmitUpdate = new QuestionSubmit();
         questionSubmitUpdate.setId(questionSubmitId);
-        questionSubmitUpdate.setStatus(QuestionSubmitStatusEnum.WORKING.getValue());
+        questionSubmitUpdate.setStatus(QuestionSubmitStatusEnum.JUDGING.getValue());
         boolean update = questionSubmitService.updateById(questionSubmitUpdate);
         if (!update) {
             throw new BusinessException(ErrorCode.OPERATION_ERROR, "判题状态更改失败");

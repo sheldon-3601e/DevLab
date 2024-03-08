@@ -4,7 +4,6 @@ import { json } from '@codemirror/lang-json';
 import { githubDark } from '@uiw/codemirror-theme-github';
 import CodeMirror, { Compartment, ViewUpdate } from '@uiw/react-codemirror';
 import React, { useEffect, useState } from 'react';
-import {languages} from "monaco-editor";
 
 interface CodeEditorPropsType {
   value?: string;
