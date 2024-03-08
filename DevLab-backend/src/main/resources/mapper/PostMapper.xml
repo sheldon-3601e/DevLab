@@ -9,6 +9,7 @@
     <resultMap id="BaseResultMap" type="com.sheldon.devlab.model.entity.Post">
         <id property="id" column="id" jdbcType="BIGINT"/>
         <result property="title" column="title" jdbcType="VARCHAR"/>
+        <result property="description" column="description" jdbcType="VARCHAR"/>
         <result property="content" column="content" jdbcType="VARCHAR"/>
         <result property="tags" column="tags" jdbcType="VARCHAR"/>
         <result property="thumbNum" column="thumbNum" jdbcType="BIGINT"/>
@@ -20,7 +21,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,title,content,tags,
+        id,title,description,content,tags,
         thumbNum,favourNum,userId,
         createTime,updateTime,isDelete
     </sql>

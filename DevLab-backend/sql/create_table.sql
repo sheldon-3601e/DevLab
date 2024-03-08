@@ -134,6 +134,7 @@ create table if not exists post
 (
     id         bigint auto_increment comment 'id' primary key,
     title      varchar(512)                       null comment '标题',
+    abstract   varchar(512)                       null comment '摘要',
     content    text                               null comment '内容',
     tags       varchar(1024)                      null comment '标签列表（json 数组）',
     thumbNum   int      default 0                 not null comment '点赞数',

@@ -27,6 +27,11 @@ public class Post implements Serializable {
     private String title;
 
     /**
+     * 摘要
+     */
+    private String description;
+
+    /**
      * 内容
      */
     private String content;

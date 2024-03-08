@@ -95,6 +95,12 @@ export default [
         component: './Post/ListPost',
         name: '文章列表',
       },
+      {
+        path: '/post/add',
+        icon: 'smile',
+        component: './Post/AddPost',
+        name: '发布文章',
+      },
     ],
   },
   {

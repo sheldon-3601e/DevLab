@@ -1,8 +1,7 @@
 import TagList from '@/components/TagList';
 import { listPostVoByPageUsingPost } from '@/services/backend/postController';
-import { LikeOutlined, MessageOutlined, StarOutlined } from '@ant-design/icons';
+import { LikeOutlined, StarOutlined } from '@ant-design/icons';
 import { PageContainer, ProList } from '@ant-design/pro-components';
-import { Button } from 'antd';
 import React from 'react';
 
 const IconText = ({ icon, text }: { icon: any; text: string }) => (
@@ -25,11 +24,11 @@ const ListPost: React.FC = () => {
           rowKey="id"
           split
           pagination={{
-            pageSize: 10
+            pageSize: 10,
           }}
           request={async (params, sort, filter) => {
-            const sortField = Object.keys(sort)?.[0];
-            const sortOrder = sort?.[sortField] ?? undefined;
+            const sortField = 'createTime';
+            const sortOrder = 'desc';
 
             const { data, code } = await listPostVoByPageUsingPost({
               ...params,
@@ -53,8 +52,16 @@ const ListPost: React.FC = () => {
             },
             actions: {
               render: (_, row) => [
-                <IconText icon={StarOutlined} text={(row.favourNum ?? 0).toString()} key="list-vertical-star-o" />,
-                <IconText icon={LikeOutlined} text={(row.thumbNum ?? 0).toString()} key="list-vertical-like-o" />,
+                <IconText
+                  icon={StarOutlined}
+                  text={(row.favourNum ?? 0).toString()}
+                  key="list-vertical-star-o"
+                />,
+                <IconText
+                  icon={LikeOutlined}
+                  text={(row.thumbNum ?? 0).toString()}
+                  key="list-vertical-like-o"
+                />,
               ],
             },
             content: {
