@@ -1,6 +1,7 @@
 import MargBottom16 from '@/components/margBottom16';
 import MyMdEditor from '@/components/MyMdEditor';
 import { TAG_LIST } from '@/constants/TagConstants';
+import { addPostUsingPost, getPostVoByIdUsingGet } from '@/services/backend/postController';
 import {
   PageContainer,
   ProCard,
@@ -11,12 +12,21 @@ import {
 } from '@ant-design/pro-components';
 import '@umijs/max';
 import { Form, message } from 'antd';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { addPostUsingPost } from '@/services/backend/postController';
+import { useLocation } from 'umi';
+import {result} from "lodash";
 
 const AddPost: React.FC = () => {
   const navigate = useNavigate();
+  const [initPost, setInitPost] = useState<API.PostVO>();
+
+  const [form] = Form.useForm()
+
+
+  // 获取传递的id值
+  const { state } = useLocation();
+  console.log(state);
 
   //添加节点
   const handleAdd = async (value: API.PostAddRequest) => {
@@ -30,12 +40,30 @@ const AddPost: React.FC = () => {
     }
   };
 
+  const fetchPostVO = async (id: string) => {
+    const res = await getPostVoByIdUsingGet({
+      id,
+    });
+    if (res.data) {
+      form.setFieldsValue(res.data)
+    }
+  };
+
+  // 判断是否是修改文章
+  useEffect(() => {
+    // console.log(state.id)
+    if (state) {
+      fetchPostVO(state.id);
+    }
+  }, []);
+
   return (
     <div id={'add_post'}>
       <PageContainer title={'发布文章'}>
         <ProCard>
           <ProForm<API.PostAddRequest>
             style={{ padding: '10px' }}
+            form={form}
             layout={'vertical'}
             onFinish={async (values) => handleAdd(values)}
             autoFocusFirstInput

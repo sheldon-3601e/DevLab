@@ -8,6 +8,10 @@ export default [
     access: 'canLogin',
     routes: [
       {
+        path: '/friend',
+        redirect: '/friend/match'
+      },
+      {
         path: '/friend/match',
         component: './Match/Home',
         name: '推荐码友',
@@ -21,17 +25,21 @@ export default [
   },
   {
     icon: 'teamOutlined',
-    path: '/match/team',
+    path: '/team',
     name: '队伍',
     access: 'canLogin',
     routes: [
       {
-        path: '/match/team/show',
+        path: '/team',
+        redirect: '/team/show'
+      },
+      {
+        path: '/team/show',
         component: './Match/Team',
         name: '队伍列表',
       },
       {
-        path: '/match/team/add',
+        path: '/team/add',
         component: './Match/Team/AddTeam',
         name: '创建队伍',
       },
@@ -43,6 +51,10 @@ export default [
     name: 'OJ平台',
     access: 'canLogin',
     routes: [
+      {
+        path: '/question',
+        redirect: '/question/list'
+      },
       {
         path: '/question/list',
         icon: 'smile',
@@ -90,6 +102,10 @@ export default [
     access: 'canLogin',
     routes: [
       {
+        path: '/post',
+        redirect: '/post/list'
+      },
+      {
         path: '/post/list',
         icon: 'smile',
         component: './Post/ListPost',
@@ -100,6 +116,12 @@ export default [
         icon: 'smile',
         component: './Post/AddPost',
         name: '发布文章',
+      },
+      {
+        path: '/post/manager',
+        icon: 'smile',
+        component: './Post/ManagePost',
+        name: '管理文章',
       },
     ],
   },
