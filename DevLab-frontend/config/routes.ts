@@ -123,6 +123,13 @@ export default [
         component: './Post/ManagePost',
         name: '管理文章',
       },
+      {
+        path: '/post/view/:id',
+        icon: 'smile',
+        component: './Post/ViewPost',
+        name: '文章详情',
+        hideInMenu: true
+      },
     ],
   },
   {
