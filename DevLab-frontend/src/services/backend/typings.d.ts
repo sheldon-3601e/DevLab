@@ -5,6 +5,12 @@ declare namespace API {
     message?: string;
   };
 
+  type BaseResponseInt_ = {
+    code?: number;
+    data?: number;
+    message?: string;
+  };
+
   type BaseResponseListQuestionTags_ = {
     code?: number;
     data?: QuestionTags[];
@@ -32,6 +38,18 @@ declare namespace API {
   type BaseResponseLong_ = {
     code?: number;
     data?: string;
+    message?: string;
+  };
+
+  type BaseResponsePagePost_ = {
+    code?: number;
+    data?: PagePost_;
+    message?: string;
+  };
+
+  type BaseResponsePagePostVO_ = {
+    code?: number;
+    data?: PagePostVO_;
     message?: string;
   };
 
@@ -71,6 +89,12 @@ declare namespace API {
     message?: string;
   };
 
+  type BaseResponsePostVO_ = {
+    code?: number;
+    data?: PostVO;
+    message?: string;
+  };
+
   type BaseResponseQuestionEditVO_ = {
     code?: number;
     data?: QuestionEditVO;
@@ -102,6 +126,11 @@ declare namespace API {
   };
 
   type DeleteRequest = {
+    id?: string;
+  };
+
+  type getPostVOByIdUsingGETParams = {
+    /** id */
     id?: string;
   };
 
@@ -158,6 +187,32 @@ declare namespace API {
   type OrderItem = {
     asc?: boolean;
     column?: string;
+  };
+
+  type PagePost_ = {
+    countId?: string;
+    current?: string;
+    maxLimit?: string;
+    optimizeCountSql?: boolean;
+    orders?: OrderItem[];
+    pages?: string;
+    records?: Post[];
+    searchCount?: boolean;
+    size?: string;
+    total?: string;
+  };
+
+  type PagePostVO_ = {
+    countId?: string;
+    current?: string;
+    maxLimit?: string;
+    optimizeCountSql?: boolean;
+    orders?: OrderItem[];
+    pages?: string;
+    records?: PostVO[];
+    searchCount?: boolean;
+    size?: string;
+    total?: string;
   };
 
   type PageQuestion_ = {
@@ -236,6 +291,92 @@ declare namespace API {
     searchCount?: boolean;
     size?: string;
     total?: string;
+  };
+
+  type Post = {
+    content?: string;
+    createTime?: string;
+    description?: string;
+    favourNum?: number;
+    id?: string;
+    isDelete?: number;
+    tags?: string;
+    thumbNum?: number;
+    title?: string;
+    updateTime?: string;
+    userId?: string;
+  };
+
+  type PostAddRequest = {
+    content?: string;
+    description?: string;
+    tags?: string[];
+    title?: string;
+  };
+
+  type PostEditRequest = {
+    content?: string;
+    description?: string;
+    id?: string;
+    tags?: string[];
+    title?: string;
+  };
+
+  type PostFavourAddRequest = {
+    postId?: string;
+  };
+
+  type PostFavourQueryRequest = {
+    current?: number;
+    pageSize?: number;
+    postQueryRequest?: PostQueryRequest;
+    sortField?: string;
+    sortOrder?: string;
+    userId?: string;
+  };
+
+  type PostQueryRequest = {
+    content?: string;
+    current?: number;
+    favourUserId?: string;
+    id?: string;
+    notId?: string;
+    orTags?: string[];
+    pageSize?: number;
+    searchText?: string;
+    sortField?: string;
+    sortOrder?: string;
+    tags?: string[];
+    title?: string;
+    userId?: string;
+  };
+
+  type PostThumbAddRequest = {
+    postId?: string;
+  };
+
+  type PostUpdateRequest = {
+    content?: string;
+    description?: string;
+    id?: string;
+    tags?: string[];
+    title?: string;
+  };
+
+  type PostVO = {
+    content?: string;
+    createTime?: string;
+    description?: string;
+    favourNum?: number;
+    hasFavour?: boolean;
+    hasThumb?: boolean;
+    id?: string;
+    tagList?: string[];
+    thumbNum?: number;
+    title?: string;
+    updateTime?: string;
+    user?: UserVO;
+    userId?: string;
   };
 
   type Question = {

@@ -2,7 +2,7 @@ package com.sheldon.devlab.model.dto.post;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.json.JSONUtil;
-import com.yupi.springbootinit.model.entity.Post;
+import com.sheldon.devlab.model.entity.Post;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;

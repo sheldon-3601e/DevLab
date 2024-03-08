@@ -85,6 +85,20 @@ export default [
   },
   {
     icon: 'userOutlined',
+    path: '/post',
+    name: '文章',
+    access: 'canLogin',
+    routes: [
+      {
+        path: '/post/list',
+        icon: 'smile',
+        component: './Post/ListPost',
+        name: '文章列表',
+      },
+    ],
+  },
+  {
+    icon: 'userOutlined',
     path: '/account',
     name: '个人',
     access: 'canLogin',
