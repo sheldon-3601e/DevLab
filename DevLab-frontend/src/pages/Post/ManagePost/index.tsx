@@ -1,15 +1,11 @@
 import TagList from '@/components/TagList';
-import {
-  deleteQuestionUsingPost,
-  listMyQuestionVoByPageUsingPost,
-} from '@/services/backend/questionController';
-import { PlusOutlined } from '@ant-design/icons';
-import type { ActionType, ProColumns } from '@ant-design/pro-components';
-import { PageContainer, ProTable } from '@ant-design/pro-components';
+import {PlusOutlined} from '@ant-design/icons';
+import type {ActionType, ProColumns} from '@ant-design/pro-components';
+import {PageContainer, ProTable} from '@ant-design/pro-components';
 import '@umijs/max';
-import { Button, message, Popconfirm, Space, Tag } from 'antd';
-import React, { useRef } from 'react';
-import {  useNavigate } from 'react-router-dom';
+import {Button, message, Popconfirm, Space} from 'antd';
+import React, {useRef} from 'react';
+import {useNavigate} from 'react-router-dom';
 import {deletePostUsingPost, listMyPostVoByPageUsingPost} from "@/services/backend/postController";
 
 /**

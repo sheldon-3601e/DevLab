@@ -1,18 +1,20 @@
-import {useModel} from '@@/plugin-model';
-import {MailOutlined, WhatsAppOutlined} from '@ant-design/icons';
-import {GridContent} from '@ant-design/pro-components';
-import {Card, Col, Divider, Row, Tag} from 'antd';
-import React, {useState} from 'react';
+import TagList from '@/components/TagList';
+import { useModel } from '@@/plugin-model';
+import { MailOutlined, WhatsAppOutlined } from '@ant-design/icons';
+import { GridContent } from '@ant-design/pro-components';
+import { Card, Col, Divider, Row } from 'antd';
+import React, { useState } from 'react';
 import useStyles from './Center.style';
 import CreatedTeamList from './components/CreatedTeamList';
 import JoinedTeamList from './components/JoinedTeamList';
+import FavourPostList from "@/pages/Account/Center/components/FavourPostList";
 
 /**
  * 标签选择配置
  */
 const operationTabList = [
   {
-    key: 'joinedTeam',
+    key: 'joinedTeamList',
     tab: (
       <span>
         已加入队伍{' '}
@@ -25,7 +27,7 @@ const operationTabList = [
     ),
   },
   {
-    key: 'createdTeam',
+    key: 'createdTeamList',
     tab: (
       <span>
         已创建的队伍{' '}
@@ -37,34 +39,26 @@ const operationTabList = [
       </span>
     ),
   },
+  {
+    key: 'favourPostList',
+    tab: (
+      <span>
+        收藏帖子{' '}
+        <span
+          style={{
+            fontSize: 14,
+          }}
+        />
+      </span>
+    ),
+  },
 ];
 
-/**
- * 渲染用户标签列表
- * @param tags
- * @constructor
- */
-const TagList: React.FC<{
-  tags: string[];
-}> = ({ tags }) => {
-  const { styles } = useStyles();
-
-  return (
-    <div className={styles.tags}>
-      <div className={styles.tagsTitle}>标签</div>
-      {tags.map((item) => (
-        <Tag key={item}>{item}</Tag>
-      ))}
-    </div>
-  );
-};
-
 const UserCenter: React.FC = () => {
-
-  type tabKeyType = 'joinedTeam' | 'createdTeam' | 'projects';
+  type tabKeyType = 'joinedTeamList' | 'createdTeamList' | 'favourPostList';
 
   const { styles } = useStyles();
-  const [tabKey, setTabKey] = useState<tabKeyType>('joinedTeam');
+  const [tabKey, setTabKey] = useState<tabKeyType>('joinedTeamList');
   const { initialState } = useModel('@@initialState');
   const [currentUser] = useState(initialState?.currentUser ?? {});
 
@@ -94,11 +88,14 @@ const UserCenter: React.FC = () => {
 
   // 渲染tab切换
   const renderChildrenByTabKey = (tabValue: tabKeyType) => {
-    if (tabValue === 'createdTeam') {
+    if (tabValue === 'createdTeamList') {
       return <CreatedTeamList />;
     }
-    if (tabValue === 'joinedTeam') {
+    if (tabValue === 'joinedTeamList') {
       return <JoinedTeamList />;
+    }
+    if (tabValue === 'favourPostList') {
+      return <FavourPostList />;
     }
     return null;
   };

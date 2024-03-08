@@ -96,7 +96,7 @@ export default [
     ],
   },
   {
-    icon: 'userOutlined',
+    icon: 'fileTextOutlined',
     path: '/post',
     name: '文章',
     access: 'canLogin',

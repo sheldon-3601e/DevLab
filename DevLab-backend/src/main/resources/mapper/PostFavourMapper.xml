@@ -24,6 +24,6 @@
         select p.*
         from post p
                  join (select postId from post_favour where userId = #{favourUserId}) pf
-                      on p.id = pf.postId ${ew.customSqlSegment}
+                      on p.id = pf.postId ${queryWrapper.sqlSegment}
     </select>
 </mapper>

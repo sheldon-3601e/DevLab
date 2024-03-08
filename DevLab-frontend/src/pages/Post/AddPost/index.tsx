@@ -12,17 +12,14 @@ import {
 } from '@ant-design/pro-components';
 import '@umijs/max';
 import { Form, message } from 'antd';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from 'umi';
-import {result} from "lodash";
 
 const AddPost: React.FC = () => {
   const navigate = useNavigate();
-  const [initPost, setInitPost] = useState<API.PostVO>();
 
-  const [form] = Form.useForm()
-
+  const [form] = Form.useForm();
 
   // 获取传递的id值
   const { state } = useLocation();
@@ -45,7 +42,7 @@ const AddPost: React.FC = () => {
       id,
     });
     if (res.data) {
-      form.setFieldsValue(res.data)
+      form.setFieldsValue(res.data);
     }
   };
 

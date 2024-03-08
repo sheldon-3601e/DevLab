@@ -19,6 +19,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 帖子收藏服务实现
@@ -61,7 +63,22 @@ public class PostFavourServiceImpl extends ServiceImpl<PostFavourMapper, PostFav
         if (favourUserId <= 0) {
             return new Page<>();
         }
-        return baseMapper.listFavourPostByPage(page, queryWrapper, favourUserId);
+        // 查询出收藏的帖子
+        // 通过收藏表查询帖子id
+        QueryWrapper<PostFavour> postFavourQueryWrapper = new QueryWrapper<>();
+        postFavourQueryWrapper.eq("userId", favourUserId);
+        List<Long> postIds = this.list(postFavourQueryWrapper)
+                .stream().
+                map(PostFavour::getPostId)
+                .collect(Collectors.toList());
+        if (postIds.isEmpty()) {
+            return new Page<>();
+        }
+        // 通过帖子id查询帖子
+        QueryWrapper<Post> postQueryWrapper = new QueryWrapper<>();
+        postQueryWrapper.in("id", postIds);
+        IPage<Post> postIPage = postService.page(page, postQueryWrapper);
+        return (Page<Post>) postIPage;
     }
 
     /**
