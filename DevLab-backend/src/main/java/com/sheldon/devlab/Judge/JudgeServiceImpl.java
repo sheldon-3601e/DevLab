@@ -92,10 +92,25 @@ public class JudgeServiceImpl implements JudgeService {
                 .build();
         ExecuteCodeResponse executeCodeResponse = codeSandboxProxy.executeCode(executeCodeRequest);
 
+        String message = executeCodeResponse.getMessage();
+        Integer executeCodeResponseStatus = executeCodeResponse.getStatus();
+        JudgeInfo judgeInfo = executeCodeResponse.getJudgeInfo();
+        if (!QuestionSubmitStatusEnum.SUCCEED.getValue().equals(executeCodeResponseStatus)) {
+            // 代码执行异常
+            questionSubmitUpdate = new QuestionSubmit();
+            questionSubmitUpdate.setId(questionSubmitId);
+            questionSubmitUpdate.setStatus(QuestionSubmitStatusEnum.FAILED.getValue());
+            questionSubmitUpdate.setJudgeInfo(JSONUtil.toJsonStr(judgeInfo));
+            update = questionSubmitService.updateById(questionSubmitUpdate);
+            if (!update) {
+                throw new BusinessException(ErrorCode.SYSTEM_ERROR, "题目状态更新错误");
+            }
+            throw new BusinessException(ErrorCode.SYSTEM_ERROR, message);
+        }
+
         List<String> responseOutputList = executeCodeResponse.getOutputList();
         String judgeConfigStr = question.getJudgeConfig();
         JudgeConfig judgeConfig = JSONUtil.toBean(judgeConfigStr, JudgeConfig.class);
-        JudgeInfo judgeInfo = executeCodeResponse.getJudgeInfo();
 
         // 5）根据沙箱的执行结果，设置题目的判题状态和信息
         JudgeContext judgeContext = new JudgeContext();

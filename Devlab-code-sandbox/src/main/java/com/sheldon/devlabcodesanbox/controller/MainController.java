@@ -6,6 +6,7 @@ import com.sheldon.devlabcodesanbox.template.JavaDockerCodeSandboxTemplateImpl;
 import com.sheldon.devlabcodesanbox.template.JavaNativeCodeSandboxTemplateImpl;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -20,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
  * @description 测试接口
  */
 @RestController
+@RequestMapping("/code")
 public class MainController {
 
     private static final String AUTH_REQUEST_HEADER = "auth";
@@ -31,7 +33,7 @@ public class MainController {
     @Resource
     private JavaDockerCodeSandboxTemplateImpl javaDockerCodeSandboxTemplate;
 
-    @PostMapping("/executeCode")
+    @PostMapping("/execute")
     ExecuteCodeResponse executeCode(@RequestBody ExecuteCodeRequest executeCodeRequest, HttpServletRequest request, HttpServletResponse response) {
         String header = request.getHeader(AUTH_REQUEST_HEADER);
         if (!AUTH_REQUEST_STR.equals(header)) {

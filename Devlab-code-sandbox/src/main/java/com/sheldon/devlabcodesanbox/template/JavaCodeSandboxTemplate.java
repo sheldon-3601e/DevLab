@@ -184,26 +184,31 @@ public abstract class JavaCodeSandboxTemplate implements CodeSandbox {
         String language = executeCodeRequest.getLanguage();
         String code = executeCodeRequest.getCode();
 
-        // 1.把用户的代码隔离存放
-        File userCodeFile = saveFile(code);
+        try {
+            if (!"java".equals(language)) {
+                throw new RuntimeException("language error");
+            }
+            // 1.把用户的代码隔离存放
+            File userCodeFile = saveFile(code);
 
-        // 2.编译代码，得到class文件
-        ExecuteMessage compileMessage = compileFile(userCodeFile);
+            // 2.编译代码，得到class文件
+            ExecuteMessage compileMessage = compileFile(userCodeFile);
 
-        // 3.运行代码，并输入测试用例
-        List<ExecuteMessage> executeMessages = runFile(inputList, userCodeFile);
+            // 3.运行代码，并输入测试用例
+            List<ExecuteMessage> executeMessages = runFile(inputList, userCodeFile);
 
-        // 4.处理返回结果，封装返回值
-        ExecuteCodeResponse executeCodeResponse = getOutputResponse(executeMessages);
+            // 4.处理返回结果，封装返回值
+            ExecuteCodeResponse executeCodeResponse = getOutputResponse(executeMessages);
 
-        // 5. 文件清理
-        boolean delFile = delFile(userCodeFile);
-        if (!delFile) {
-            throw new RuntimeException("del file error");
+            // 5. 文件清理
+            boolean delFile = delFile(userCodeFile);
+            if (!delFile) {
+                throw new RuntimeException("del file error");
+            }
+            return executeCodeResponse;
+        } catch (Exception e) {
+            throw new RuntimeException("execute error", e);
         }
-
-        return executeCodeResponse;
     }
-
 
 }
