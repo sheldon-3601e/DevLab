@@ -23,11 +23,11 @@ const AddPost: React.FC = () => {
 
   // 获取传递的id值
   const { state } = useLocation();
-  console.log(state);
+  // console.log(state);
 
   //添加节点
   const handleAdd = async (value: API.PostAddRequest) => {
-    console.log(value);
+    // console.log(value);
     const result = await addPostUsingPost({
       ...value,
     });

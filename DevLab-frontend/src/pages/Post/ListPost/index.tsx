@@ -46,7 +46,7 @@ const ListPost: React.FC = () => {
   };
 
   const handleRowClick = (postId: string) => {
-    console.log(postId);
+    // console.log(postId);
     navigate(`/post/view/${postId}`)
   };
 

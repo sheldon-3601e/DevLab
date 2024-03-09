@@ -43,7 +43,7 @@ const handleTagList = (tagList: API.TagVO[]) => {
       acc[item.tagName.toLowerCase()] = item.tagName;
       return acc;
     }, {});
-  console.log(result);
+  // console.log(result);
   return result;
 };
 
@@ -89,7 +89,7 @@ const BaseView: React.FC = () => {
 
   // 处理表单提交事件
   const handleFinish = async (value: API.UserUpdateMyRequest) => {
-    console.log(value);
+    // console.log(value);
     setLoading(true);
     const res = await updateMyUserUsingPost(value);
     if (res.data) {

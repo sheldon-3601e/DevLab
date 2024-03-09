@@ -25,7 +25,7 @@ const EditTeam: React.FC<EditTeamProps> = ({ teamUserVO, onFinish, visible, setV
   const [teamType, setTeamType] = useState<string>('0');
 
 
-  console.log(teamUserVO)
+  // console.log(teamUserVO)
 
   return (
     <ModalForm<API.TeamUserVO>
@@ -100,8 +100,8 @@ const EditTeam: React.FC<EditTeamProps> = ({ teamUserVO, onFinish, visible, setV
         rules={[
           {
             validator: (_, value) => {
-              console.log(value);
-              console.log(dayjs().toDate())
+              // console.log(value);
+              // console.log(dayjs().toDate())
               return value && dayjs(value).isAfter(dayjs())
                 ? Promise.resolve()
                 : Promise.reject(new Error('过期时间应当大于当前时间'));

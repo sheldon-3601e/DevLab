@@ -23,7 +23,7 @@ const ManagePost: React.FC = () => {
    * @param row
    */
   const handleDelete = async (row: API.QuestionVO) => {
-    console.log(row);
+    // console.log(row);
     const hide = message.loading('正在删除');
     if (!row) return true;
     try {

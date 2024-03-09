@@ -70,7 +70,7 @@ const Search: FC = () => {
       tagNameList,
     });
     if (result.data) {
-      console.log('userList:', result.data);
+      // console.log('userList:', result.data);
       setUserList(result.data.records ?? []);
       total.current = parseInt(result.data.total ?? '100');
     } else {
@@ -123,7 +123,7 @@ const Search: FC = () => {
 
   // 监听用户选择的父标签，筛选中对应的子标签
   useEffect(() => {
-    console.log('tagParentSelectedList:', tagParentSelectedList);
+    // console.log('tagParentSelectedList:', tagParentSelectedList);
     const tagCurrent = tagList.filter((tag) =>
       tagParentSelectedList.includes(String(tag.parentId)),
     );

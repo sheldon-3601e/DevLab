@@ -20,17 +20,12 @@ const CreateModal: React.FC = () => {
   const navigate = useNavigate();
   const [teamType, setTeamType] = useState<string>('0');
 
-  // useEffect(() => {
-  //   console.log('teamType changed', teamType);
-  // }, [teamType]);
-
   /**
    * 添加节点
    * @param value
    */
   const handleAdd = async (value: API.TeamAddRequest) => {
     const hide = message.loading('正在添加');
-    console.log(value);
     try {
       const result = await addTeamUsingPost(value);
       hide();
@@ -94,7 +89,6 @@ const CreateModal: React.FC = () => {
             rules={[
               {
                 validator: (_, value) => {
-                  console.log(value);
                   return value > dayjs(new Date()).add(1)
                     ? Promise.resolve()
                     : Promise.reject(new Error('过期时间应当大于当前时间'));
@@ -116,7 +110,6 @@ const CreateModal: React.FC = () => {
               placeholder="请选择队伍类别"
               rules={[{ required: true, message: '请选择队伍类别!' }]}
               onChange={(value) => {
-                // console.log(typeof value);
                 setTeamType(value);
               }}
             />

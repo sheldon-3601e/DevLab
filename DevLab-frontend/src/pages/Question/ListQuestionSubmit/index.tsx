@@ -11,7 +11,6 @@ import React, {useRef, useState} from 'react';
  * @constructor
  */
 
-
 const ListQuestionSubmit: React.FC = () => {
   const actionRef = useRef<ActionType>();
 
@@ -34,6 +33,7 @@ const ListQuestionSubmit: React.FC = () => {
       title: 'id',
       dataIndex: 'id',
       valueType: 'text',
+      hideInSearch: true
     },
     {
       title: '编程语言',
@@ -77,7 +77,6 @@ const ListQuestionSubmit: React.FC = () => {
           <Button
             type={'dashed'}
             onClick={() => {
-              console.log(record);
               setJudgeInfo(record.judgeInfo ?? {});
               setIsModalOpen(true);
             }}
@@ -108,8 +107,6 @@ const ListQuestionSubmit: React.FC = () => {
             sortOrder,
             ...filter,
           });
-
-          console.log(data?.records);
 
           return {
             success: code === 0,

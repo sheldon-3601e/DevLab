@@ -54,7 +54,7 @@ const EditQuestion: React.FC = () => {
 
   //添加节点
   const handleAdd = async (value: API.QuestionAddRequest) => {
-    console.log(value);
+    // console.log(value);
     // 解析JSON字符串为JavaScript对象数组
     // @ts-ignore
     value.judgeCase = JSON.parse(value.judgeCase);
