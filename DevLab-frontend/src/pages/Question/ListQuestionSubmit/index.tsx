@@ -41,7 +41,7 @@ const ListQuestionSubmit: React.FC = () => {
       valueType: 'text',
     },
     {
-      title: '判题状态',
+      title: '提交状态',
       dataIndex: 'status',
       valueEnum: {
         0: '待判题',

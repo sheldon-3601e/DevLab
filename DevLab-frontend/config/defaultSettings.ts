@@ -15,7 +15,7 @@ const Settings: ProLayoutProps & {
   fixedHeader: false,
   fixSiderbar: true,
   colorWeak: false,
-  title: '缘聚',
+  title: 'Dev-lab',
   logo: '/logo.svg',
   pwa: true,
   iconfontUrl: '',

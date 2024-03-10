@@ -5,10 +5,10 @@ server:
   port: 8101
   servlet:
     context-path: /api
-    # cookie 30 天过期
+    # cookie 一个小时过期
     session:
       cookie:
-        max-age: 2592000
+        max-age: 3600
 spring:
   # 数据库配置
   datasource:
@@ -43,3 +43,6 @@ knife4j:
     enable: true
     username: root
     password: 02120711LIUch
+# 代码沙箱配置
+codesandbox:
+  type: remote

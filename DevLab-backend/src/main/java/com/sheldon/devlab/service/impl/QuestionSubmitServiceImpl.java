@@ -114,6 +114,9 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
                 if (!save) {
                     throw new BusinessException(ErrorCode.SYSTEM_ERROR, "问题提交失败");
                 }
+
+                this.increaseQuestionSubmitCount(questionId);
+
                 // 调用代码沙箱
                 Long questionSubmitId = questionSubmit.getId();
                 CompletableFuture.runAsync(() -> judgeService.doJudge(questionSubmitId));
@@ -191,6 +194,39 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
         questionSubmitVOPage.setRecords(questionSubmitVOList);
         return questionSubmitVOPage;
     }
+
+    /**
+     * 增加题目提交数量
+     *
+     * @param questionId
+     * @return
+     */
+    @Override
+    public boolean increaseQuestionSubmitCount(Long questionId) {
+        Question question = questionService.getById(questionId);
+        if (question == null) {
+            return false;
+        }
+        question.setSubmitNum(question.getSubmitNum() + 1);
+        return questionService.updateById(question);
+    }
+
+    /**
+     * 增加题目通过数量
+     *
+     * @param questionId
+     * @return
+     */
+    @Override
+    public boolean increaseQuestionPassCount(Long questionId) {
+        Question question = questionService.getById(questionId);
+        if (question == null) {
+            return false;
+        }
+        question.setAcceptedNum(question.getAcceptedNum() + 1);
+        return questionService.updateById(question);
+    }
+
 }
 
 

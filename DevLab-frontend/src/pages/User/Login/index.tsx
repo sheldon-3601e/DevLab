@@ -32,16 +32,16 @@ const Login: React.FC = () => {
         ...values,
       });
 
-      const defaultLoginSuccessMessage = '登录成功！';
-      message.success(defaultLoginSuccessMessage);
-      // 保存已登录用户信息
-      setInitialState({
-        ...initialState,
-        currentUser: res.data,
-      });
-      const urlParams = new URL(window.location.href).searchParams;
-      history.replace(urlParams.get('redirect') || '/');
-      return;
+      if (res.code === 0) {
+        const defaultLoginSuccessMessage = '登录成功！';
+        message.success(defaultLoginSuccessMessage);
+        // 保存已登录用户信息
+        setInitialState({
+          currentUser: res.data,
+        });
+        const urlParams = new URL(window.location.href).searchParams;
+        history.replace(urlParams.get('redirect') || '/');
+      }
     } catch (error: any) {
       const defaultLoginFailureMessage = `登录失败，${error.message}`;
       message.error(defaultLoginFailureMessage);
@@ -67,7 +67,7 @@ const Login: React.FC = () => {
             maxWidth: '75vw',
           }}
           logo={<img alt="logo" style={{ height: '100%' }} src="/logo.svg" />}
-          title="缘聚"
+          title="Dev-lab"
           subTitle={'共同进步、共同成长'}
           initialValues={{
             autoLogin: true,

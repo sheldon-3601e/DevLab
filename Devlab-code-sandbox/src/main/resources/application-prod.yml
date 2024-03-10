@@ -1,0 +1,11 @@
+server:
+  port: 8113
+  servlet:
+    context-path: /api
+spring:
+  redis:
+    database: 2
+    host: 129.211.12.15
+    port: 6379
+    timeout: 5000
+    password: 02120711LIUch

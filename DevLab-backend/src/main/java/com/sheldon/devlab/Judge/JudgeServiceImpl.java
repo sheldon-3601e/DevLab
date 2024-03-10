@@ -14,6 +14,7 @@ import com.sheldon.devlab.Judge.codesandbox.model.JudgeInfo;
 import com.sheldon.devlab.model.dto.questionSubmit.JudgeConfig;
 import com.sheldon.devlab.model.entity.Question;
 import com.sheldon.devlab.model.entity.QuestionSubmit;
+import com.sheldon.devlab.model.enums.JudgeInfoMessageEnum;
 import com.sheldon.devlab.model.enums.QuestionSubmitStatusEnum;
 import com.sheldon.devlab.service.QuestionService;
 import com.sheldon.devlab.service.QuestionSubmitService;
@@ -120,6 +121,11 @@ public class JudgeServiceImpl implements JudgeService {
         judgeContext.setJudgeConfig(judgeConfig);
         judgeContext.setJudgeInfo(judgeInfo);
         JudgeInfo judgeInfoResponse = judgeManager.doJudge(judgeContext);
+
+        if (JudgeInfoMessageEnum.Accepted.getValue().equals(judgeInfoResponse.getMessage())) {
+            // 添加题目通过次数
+            questionSubmitService.increaseQuestionPassCount(questionId);
+        }
 
         // 6）修改数据库中的判题结果
         questionSubmitUpdate = new QuestionSubmit();

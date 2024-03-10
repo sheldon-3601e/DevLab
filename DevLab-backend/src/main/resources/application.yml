@@ -74,4 +74,6 @@ knife4j:
 # 代码沙箱配置
 codesandbox:
   type: remote
+  remote:
+    url: http://localhost:8113/api/code/execute
 

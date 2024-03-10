@@ -16,11 +16,10 @@
     <br />
      <a href="https://github.com/sheldon-3601e/DevLab/tree/master/DevLab-backend"><strong>后端模块</strong></a>
     ·  
-    <a href="https://github.com/sheldon-3601e/DevLab/tree/master/DevLab-frontend">前端模块</a>
+        <a href="https://github.com/sheldon-3601e/DevLab/tree/master/Devlab-code-sandbox">代码沙箱模块</a>
     ·
-    <a href="https://github.com/sheldon-3601e/DevLab/tree/master/Devlab-code-sandbox">判题服务</a>
+    <a href="https://github.com/sheldon-3601e/DevLab/tree/master/DevLab-frontend">前端模块</a>
   </p>
-
 </div>
 
 
@@ -28,225 +27,164 @@
 <!-- TABLE OF CONTENTS -->
 
 <details>
-  <summary>Table of Contents</summary>
+  <summary>点我展开目录</summary>
   <ol>
     <li>
-      <a href="#about-the-project">About The Project</a>
+      <a href="#项目介绍">项目介绍</a>
       <ul>
-        <li><a href="#built-with">Built With</a></li>
+        <li><a href="#前言">前言</a></li>
+        <li><a href="#项目架构">项目架构</a></li>
+        <li><a href="#模块介绍">模块介绍</a></li>
+        <li><a href="#业务流程">业务流程</a></li>
       </ul>
     </li>
     <li>
-      <a href="#getting-started">Getting Started</a>
+      <a href="#技术栈">技术栈</a>
       <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
+        <li><a href="#后端">后端</a></li>
+        <li><a href="#前端">前端</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
+    <li>
+      <a href="#快速开始">快速开始</a>
+      <ul>
+        <li><a href="#前端模块">前端模块</a></li>
+        <li><a href="#后端模块">后端模块</a></li>
+      </ul>
+    </li>
+    <li><a href="#计划">计划</a></li>
   </ol>
 </details>
 
-
-
 <!-- ABOUT THE PROJECT -->
-## 项目介绍
 
-### 前言
+# 项目介绍
 
-本项目是基于[**缘聚匹配平台** ](https://github.com/sheldon-3601e/partner-match) 开发，如果想要了解项目基本架构，请访问该项目
+## 前言
 
-### 架构图
+本项目是基于 **缘聚匹配平台** 开发，如果想要了解项目中 用户模块、组队模块，请访问该[项目](https://github.com/sheldon-3601e/partner-match)
 
-![未命名绘图.drawio (5)](https://gitee.com/sheldon_kkk/typora-image/raw/master/img/202403082334328.svg)
+## /项目架构
 
-### 模块介绍
+![项目架构图](./access/framework.svg)
 
-本项目共有四个模块功能
+## 模块介绍
 
-- 用户模块
-- 组队模块
-- 文章模块
-- 判题模块
+1. 用户模块
 
-#### 用户模块
+	- 登录：提供分布式 Session 存储，保证集群用户登录的同步性。
+	- 标签：用户添加对应的标签，通过 距离编辑算法 推荐用户。
+	- 信息查看与修改: 用户可以查看和修改个人信息，以保持信息的准确性。
+
+2. 组队模块
+
+	- 创建队伍：用户可以创建自己的队伍，并指定对应参数，如最大人数、是否私有等
+	- 加入和退出队伍：用户可以自主加入和退出队伍，队伍创建者可以转让队伍
+
+3. 题目模块
+
+	- 发布题目：整合 React-markdown 文档编辑器 提供更方便的用户体验。
+	- 在线做题：整合 react-codemirror 代码编辑器， 支付用户在线做题。
+	- 查看提交结果： 用户能够查看他们的题目提交结果，包括失败的原因。
+
+4. 文章模块
+
+	- 查看文章：提供用户浏览系统内发布的文章的功能。
+	- 点赞收藏文章：用户可以为喜欢的文章点赞或者收藏，以后日后学习。
+
+## 业务流程
+
+### 题目提交
+
+![项目架构图](./access/questionSubmit.svg)
+
+### 设计模式
+
+因为在线判题系统的功能较为复杂，所以采用了多种设计模式。
 
 
+- 采用 静态工厂模式 和 Spring 配置 化方式实现了对多种代码沙箱的灵活调用。
+- 通过 代理模式 增强了代码沙箱接口的能力，统一实现了对调用前后的日志记录。
+- 利用 策略模式 独立封装了不同语言的判题算法，提高系统的可维护性和扩展性。
+
+为了更直观的体现 设计模式 在业务流程中的作用，制作了以下图
+
+![项目架构图](./access/design_mode.svg)
+
+## 特别说明
+
+本项目为了 代码沙箱 成为了一个可以独立对外提供服务的模块，所以将代码沙箱抽离出来
+在后端模块中，与代码沙箱进行交互的是判题服务
+为了防止功能上的混淆，用以下图说明 代码沙箱 和 判题服务 的关系
+
+<div align="center">
+    <img src="./access/codesandbox.png" alt="codesandbox" >
+</div>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+# 技术栈
+## 后端
 
+- Spring Boot + SpringMVC 框架
+- MySQL 数据库、
+- Mybatis-Plus 及 mybatis X 自动生成
+- Redis 分布式登录及缓存
+- Redisson 分布式锁和限流机制
+- 相似匹配度算法
+- Java 安全管理器
+- Docker 代码沙箱实现
+- 虚拟机 + 远程开发
+- 多种设计模式：工厂模式、代理模式、策略模式、模板模式
+- Easy Excel处理工具
+- Swagger + Knife4j 接口文档
+- Hutool、Apache Common Utils 等工具库
 
-### Built With
+## 前端
 
-This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
-
-* [![Next][Next.js]][Next-url]
-* [![React][React.js]][React-url]
-* [![Vue][Vue.js]][Vue-url]
-* [![Angular][Angular.io]][Angular-url]
-* [![Svelte][Svelte.dev]][Svelte-url]
-* [![Laravel][Laravel.com]][Laravel-url]
-* [![Bootstrap][Bootstrap.com]][Bootstrap-url]
-* [![JQuery][JQuery.com]][JQuery-url]
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
+- React 18
+- Ant Design Pro 5.x 脚手架
+- Umi 4前端框架
+- Ant Design 组件库
+- OpenAPI 前端代码生成
+- React-markdown 文档编辑器
+- react-codemirror 代码编辑器
 
 
 <!-- GETTING STARTED -->
-## Getting Started
+# 快速开始
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+首先你需要确保你的版本号
 
-### Prerequisites
+- Jdk：1.8
+- Node.js：18.16.0
+- npm：9.5.1
+- Redis：3.2.100
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
+## 前端模块
+
+你需要下载完整文件，并在根目录执行安装依赖，推荐使用 npm 安装.
   ```sh
-  npm install npm@latest -g
+  npm install
   ```
 
-### Installation
+## 后端模块
 
-_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
-
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-   ```sh
-   git clone https://github.com/your_username_/Project-Name.git
-   ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
-   ```
+你需要分别下载 后端模块 和判题模块。
+先启动 Redis，然后开启代码沙箱模块，最后开启 后端模块
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- USAGE EXAMPLES -->
-## Usage
-
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 <!-- ROADMAP -->
-## Roadmap
 
-- [x] Add Changelog
-- [x] Add back to top links
-- [ ] Add Additional Templates w/ Examples
-- [ ] Add "components" document to easily copy & paste sections of the readme
-- [ ] Multi-language Support
-    - [ ] Chinese
-    - [ ] Spanish
+## 计划
 
-See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a full list of proposed features (and known issues).
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- CONTRIBUTING -->
-## Contributing
-
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+- [ ] 添加网络通信功能
+	- [ ] 用户私聊
+	- [ ] 队伍群聊
+- [ ] 完善题目模块
+	- [ ] 添加题目表单
+	- [ ] 添加答题排名
+	- [ ] 添加竞赛功能
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- LICENSE -->
-## License
-
-Distributed under the MIT License. See `LICENSE.txt` for more information.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- CONTACT -->
-## Contact
-
-Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
-
-Project Link: [https://github.com/your_username/repo_name](https://github.com/your_username/repo_name)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- ACKNOWLEDGMENTS -->
-## Acknowledgments
-
-Use this space to list resources you find helpful and would like to give credit to. I've included a few of my favorites to kick things off!
-
-* [Choose an Open Source License](https://choosealicense.com)
-* [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
-* [Malven's Flexbox Cheatsheet](https://flexbox.malven.co/)
-* [Malven's Grid Cheatsheet](https://grid.malven.co/)
-* [Img Shields](https://shields.io)
-* [GitHub Pages](https://pages.github.com)
-* [Font Awesome](https://fontawesome.com)
-* [React Icons](https://react-icons.github.io/react-icons/search)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
-[contributors-url]: https://github.com/othneildrew/Best-README-Template/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
-[forks-url]: https://github.com/othneildrew/Best-README-Template/network/members
-[stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=for-the-badge
-[stars-url]: https://github.com/othneildrew/Best-README-Template/stargazers
-[issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=for-the-badge
-[issues-url]: https://github.com/othneildrew/Best-README-Template/issues
-[license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
-[license-url]: https://github.com/othneildrew/Best-README-Template/blob/master/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/othneildrew
-[product-screenshot]: images/screenshot.png
-[Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
-[Next-url]: https://nextjs.org/
-[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
-[React-url]: https://reactjs.org/
-[Vue.js]: https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vuedotjs&logoColor=4FC08D
-[Vue-url]: https://vuejs.org/
-[Angular.io]: https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white
-[Angular-url]: https://angular.io/
-[Svelte.dev]: https://img.shields.io/badge/Svelte-4A4A55?style=for-the-badge&logo=svelte&logoColor=FF3E00
-[Svelte-url]: https://svelte.dev/
-[Laravel.com]: https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white
-[Laravel-url]: https://laravel.com
-[Bootstrap.com]: https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white
-[Bootstrap-url]: https://getbootstrap.com
-[JQuery.com]: https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white
-[JQuery-url]: https://jquery.com

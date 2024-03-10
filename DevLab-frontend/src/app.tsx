@@ -1,7 +1,6 @@
 import Footer from '@/components/Footer';
 import '@/global.less';
 import '@/myGlobal.css';
-import { getQuestionTagsUsingGet } from '@/services/backend/questionController';
 import { listTagVoUsingPost } from '@/services/backend/tagController';
 import { getLoginUserUsingGet } from '@/services/backend/userController';
 import type { RunTimeLayoutConfig } from '@umijs/max';
@@ -18,17 +17,11 @@ export async function getInitialState(): Promise<InitialState> {
   const initialState: InitialState = {
     currentUser: undefined,
     tagList: [],
-    questionTags: [],
   };
 
   const tagRes = await listTagVoUsingPost();
   if (tagRes.data) {
     initialState.tagList = tagRes.data;
-  }
-
-  const result = await getQuestionTagsUsingGet();
-  if (result.data) {
-    initialState.questionTags = result.data;
   }
 
   // 如果不是登录页面，执行

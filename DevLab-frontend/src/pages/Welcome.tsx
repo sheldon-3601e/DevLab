@@ -26,31 +26,52 @@ const Welcome: React.FC = () => {
             backgroundImage: "url('/match_home.jpg')",
           }}
         >
-          <div style={{ fontSize: '24px', color: token.colorTextHeading }}>
-            <strong>欢迎来到我们的用户匹配平台！</strong>
-          </div>
-          {/*<Image src={'https://ichef.bbci.co.uk/ace/ws/640/cpsprodpb/182B7/production/_118599989_gettyimages-2187838.jpg'} />*/}
-          <p
-            style={{
-              fontSize: '16px',
-              color: token.colorTextSecondary,
-              lineHeight: '28px',
-              marginTop: '16px',
-              marginBottom: '32px',
-              width: '55%',
-            }}
-          >
-            在这里，我们为您提供了一个全新的社交体验，让您轻松地找到志同道合的伙伴，开启属于您的精彩旅程。
-            <br />
-            我们不仅支持基本的用户管理功能，还为您提供了强大的按标签检索、推荐相似用户以及组队功能。无论您是寻找共同爱好的伙伴，还是需要组建一个高效团队，我们都能够满足您的需求。
-            <br />
-            通过我们智能的匹配算法，您可以快速地找到与您兴趣相投的人，与他们交流、合作，共同探索更多可能性。
-            <br />
-            现在就加入我们，一起探索无限可能！
-            <br />
+          <div className="section">
+            <h2>在 Dev-lab，我们为编程学习者提供了一个全方位的学习平台</h2>
             <Divider />
-            <h4>本站的功能需要登录才能使用，请您点击右上角登录键</h4>
-          </p>
+            <p>致力于让编程学习更加轻松、有趣和高效。</p>
+          </div>
+
+          <div className="section">
+            <h3>1、个性化学习体验</h3>
+            <p>无论你是初学者还是有经验的开发者，我们都为你量身定制了个性化的学习路径。</p>
+            <p>
+              通过我们智能的标签匹配系统，你可以找到与你兴趣和技能水平相符的学习内容，让学习更加高效。
+            </p>
+          </div>
+
+          <div className="section">
+            <h3>2、编程学习小队</h3>
+            <p>在我们的编程学习小队中，你可以与志同道合的伙伴一起学习、交流，共同成长。</p>
+            <p>不再孤单地面对编程挑战，与小伙伴们一起助力彼此前进。</p>
+          </div>
+
+          <div className="section">
+            <h3>3、在线OJ系统</h3>
+            <p>挑战自我，提升编程技能！通过我们的在线OJ系统，你可以参与各种编程挑战和竞赛，</p>
+            <p>与全球的编程爱好者一较高下，收获荣誉和成就感。</p>
+          </div>
+
+          <div className="section">
+            <h3>4、帖子交流论坛</h3>
+            <p>
+              在我们的论坛中，你可以自由地分享你的学习心得、经验和疑惑，与来自世界各地的编程爱好者交流思想 ，
+            </p>
+            <p>
+              共同解决问题，激发创意。
+            </p>
+          </div>
+
+          <div className="section">
+            <br />
+            <p>现在就加入我们，一起探索无限可能！</p>
+          </div>
+
+          <hr />
+
+          <div className="login-message">
+            <h3>本站的功能需要登录才能使用，请您点击右上角登录键</h3>
+          </div>
         </div>
       </Card>
     </PageContainer>

@@ -3,7 +3,9 @@ package com.sheldon.devlab.Judge.strategy;
 import com.sheldon.devlab.Judge.codesandbox.model.JudgeInfo;
 import com.sheldon.devlab.model.dto.questionSubmit.JudgeConfig;
 import com.sheldon.devlab.model.enums.JudgeInfoMessageEnum;
+import com.sheldon.devlab.service.QuestionSubmitService;
 
+import javax.annotation.Resource;
 import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
@@ -16,12 +18,17 @@ import java.util.Optional;
  * @Description Java 策略模式实现
  */
 public class JavaLangugeJudgeStrategy implements JudgeStrategy {
+
+    @Resource
+    private QuestionSubmitService questionSubmitService;
+
     @Override
     public JudgeInfo doJudge(JudgeContext judgeContext) {
         List<String> outputList = judgeContext.getOutputList();
         List<String> responseOutputList = judgeContext.getResponseOutputList();
         JudgeConfig judgeConfig = judgeContext.getJudgeConfig();
         JudgeInfo judgeInfo = judgeContext.getJudgeInfo();
+        Long questionId = judgeContext.getQuestionSubmit().getQuestionId();
 
         long timeLimit = judgeConfig.getTimeLimit();
         long memoryLimit = judgeConfig.getMemoryLimit();
@@ -56,6 +63,7 @@ public class JavaLangugeJudgeStrategy implements JudgeStrategy {
             judgeInfoResponse.setMessage(judgeInfoMessageEnum.getValue());
             return judgeInfoResponse;
         }
+
         judgeInfoResponse.setMessage(judgeInfoMessageEnum.getValue());
         return judgeInfoResponse;
     }
