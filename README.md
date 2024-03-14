@@ -64,6 +64,8 @@
 
 本项目是基于 **缘聚匹配平台** 开发，如果想要了解项目中 用户模块、组队模块，请访问该[项目](https://github.com/sheldon-3601e/partner-match)
 
+如要查看本项目的分布式版本，[点击这里](https://github.com/sheldon-3601e/Devlab-backend-microsevice)
+
 ### 项目架构
 
 ![项目架构图](./access/framework.svg)
